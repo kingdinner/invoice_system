@@ -57,7 +57,7 @@ const generateInvoicePDF = async (htmlContent,client) => {
   await browser.close();
 
   // Return the generated PDF file name
-  return `${pdfPath}/${pdfFileName}`;
+  return `${pdfFileName}`;
 }
 
 module.exports = { generateInvoicePDF };

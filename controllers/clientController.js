@@ -24,12 +24,7 @@ let inMemoryData = [{
 
 let inMemoryHistory = {
     2023: {
-        client: {
-            Joe: [
-                "invoice_20231013140702",
-                "invoice_20231013140508"
-            ]
-        }
+        client: {}
     }
 }
 
@@ -147,8 +142,8 @@ const insertMenus = (req, res) => {
 };
 
 const renderInvoice = (req, res) => {
-    const clients = getClientNames()
-    res.render('invoice', { clients, menu: inMemoryDataMenus });
+    console.log(req.params.clientName)
+    res.render('invoice', { client: req.params.clientName, menu: inMemoryDataMenus });
 }
 
 const renderMenu = (req, res) => {
@@ -159,11 +154,26 @@ const generatePDF = async (req, res) => {
     const invoiceHTML = req.body.content
     const client = req.body.clientName
   try {
-    await invoiceController.generateInvoicePDF(invoiceHTML, client);
-    
-    const clients = getClientNames()
+    const filenamePath = await invoiceController.generateInvoicePDF(invoiceHTML, client);
+    const currentYear = new Date().getFullYear(); 
+
+    // Check if the current year exists in inMemoryHistory
+    if (!inMemoryHistory[currentYear]) {
+        inMemoryHistory[currentYear] = {
+            client: {}
+        };
+    }
+
+    // Check if the client exists in inMemoryHistory for the current year
+    if (!inMemoryHistory[currentYear].client[client]) {
+        inMemoryHistory[currentYear].client[client] = [];
+    }
+
+    // Push the filenamePath to the client's invoices array
+    inMemoryHistory[currentYear].client[client].push(filenamePath);
+    console.log(JSON.stringify(inMemoryHistory));
     // Respond with a download link for the generated PDF
-    res.render('invoice', { clients, menu: inMemoryDataMenus });
+    res.render('invoice', { client, menu: inMemoryDataMenus });
   } catch (error) {
     res.status(500).send('Error generating the invoice.');
   }
@@ -201,10 +211,9 @@ const insertEmailTemplate = async(req, res) => {
     }
 }
 
-const rendercontrol = async (req, res) => {
-    const clients = getClientNames()
-    const emailValues = inMemoryEmailTemplate.template.join('\n');
-    res.render('control', { clients, emailValues});
+const rendercontrolEmail = (req, res) => {
+    const emailValues = inMemoryEmailTemplate.template
+    res.render('control/sendEmail', { client: req.params.clientName, emailValues, getClientData: getClientData });
 }
 
 const sendEmail = (req, res) => {
@@ -260,6 +269,6 @@ module.exports = {
     renderemail,
     updateEmailTemplate,
     insertEmailTemplate,
-    rendercontrol,
+    rendercontrolEmail,
     sendEmail
 };

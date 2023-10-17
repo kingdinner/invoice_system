@@ -1,41 +1,66 @@
-<!-- The Modal -->
-<div class="modal fade" id="<%= client.replace(/ /g, '_') %>emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="emailModalLabel">Send Email</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="light-gray-bg">
+    <nav class="sidebar">
+        <div class="p-4">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/sendEmail/') ? 'active' : '' %>" data-target="client">Client</a>
+                </li>    
+                <li>
+                    <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+                </li>
+                <li>
+                    <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+                </li>
+                <li>
+                    <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
+    <div class="content">
+        <div class="container">
+            <h1>Send Email</h1>
+            <div class="form-group mt-3">
+                <label for="toEmail">To:</label>
+                <input type="text" class="form-control" id="toEmail" name="toEmail" value="<%= client %>" readonly>
             </div>
-            <div class="modal-body">
-                <div class="button-box p-3 border">
-                    <div class="form-group mt-3">
-                        <label for="toEmail">To:</label>
-                        <input type="text" class="form-control" id="toEmail" name="toEmail" value="<%= getClientData(client, 'emailAddress') %>" readonly>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="titleInput mt-4">Title:</label>
-                        <input type="text" class="form-control" id="titleInput" name="titleInput">
-                    </div>
-                    <div class="form-group mt-4">
-                        <label for="richTextEditor">Body Message:</label>
-                        <textarea class="form-control rich-input mt-1" id="body" name="body" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="attachmentSelect">Select Attachment:</label>
-                        <select class="form-control" id="attachmentSelect" name="attachmentSelect">
-                            <option value="attachment1">Attachment 1</option>
-                            <option value="attachment2">Attachment 2</option>
-                            <option value="attachment3">Attachment 3</option>
-                        </select>
-                    </div>
+            <div class="form-group mt-3">
+                <label for="titleInput">Title:</label>
+                <input type="text" class="form-control" id="titleInput" name="titleInput">
+            </div>
+            <div class="form-group mt-3">
+                <label for="messageType">Select Message Type:</label>
+                <select class="form-control" id="messageType" name="messageType">
+                    <% emailValues.forEach((message) => { %>
+                        <option value="<%= message %>"><%= message %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="d-flex justify-content-end align-items-center mt-4">
+                <button type="button" class="btn btn-sm btn-primary" id="sendEmailButton">Send Email</button>
+                <div class="form-group ml-2">
+                    <select class="form-control form-control-sm" id="attachmentSelect" name="attachmentSelect">
+                        <option value="attachment1">Attachment 1</option>
+                        <option value="attachment2">Attachment 2</option>
+                        <option value="attachment3">Attachment 3</option>
+                    </select>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sendEmailButton">Send Email</button>
-            </div>
+            </div>                         
         </div>
     </div>
-</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

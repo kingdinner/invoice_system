@@ -8,7 +8,25 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <%- include('../views/components/sidebar/sidebar.ejs') %>
+
+    <nav class="sidebar">
+        <div class="p-4">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+                </li>    
+                <li>
+                    <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+                </li>
+                <li>
+                    <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+                </li>
+                <li>
+                    <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
     <div class="content">
         <div class="container">
             <h1 class="mt-2">Invoice</h1>
@@ -18,12 +36,8 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="d-flex">
-                            <label for="clientDetailsContent" class="mt-2 mr-2">To:</label>
-                            <select id="clientDetailsContent" class="form-control">
-                                <% clients.forEach(client => { %>
-                                    <option><%= client %></option>
-                                <% }); %>
-                            </select>
+                            <label class="mt-2 mr-2">To: </label>
+                            <label for="clientDetailsContent" class="mt-2 mr-2"> <%= client %></label>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -165,7 +179,7 @@
                     </tr>
                 </tbody>
               </table>
-              <textarea class="form-control rich-input" id="body" name="body" rows="4"></textarea>
+              <textarea class="form-control rich-input" id="comment" name="comment" rows="4"></textarea>
             </div>
         </div>
     </div>
@@ -175,5 +189,5 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/script.js"></script>
-</body>
-</html>
+    </body>
+    </html>

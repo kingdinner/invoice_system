@@ -10,7 +10,6 @@ router.use((req, res, next) => {
 
 // Define a route to render the EJS template using the controller
 router.get('/', clientController.renderClientDetails);
-router.get('/invoice', clientController.renderInvoice);
 router.get('/menu', clientController.renderMenu);
 router.get('/email', clientController.renderemail);
 
@@ -25,6 +24,7 @@ router.post('/insertEmailTemplate', clientController.insertEmailTemplate);
 router.post('/sendEmail', clientController.sendEmail);
 
 
-router.get('/control', clientController.rendercontrol);
+router.get('/control/sendEmail/:clientName', clientController.rendercontrolEmail);
+router.get('/control/createInvoice/:clientName', clientController.renderInvoice);
 
 module.exports = router;

@@ -212,9 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
         saveAndSubmitButton.addEventListener('click', function() {
             // Convert the HTML content to a string
             const htmlContent = invoiceContent.outerHTML;
-            const selectElement = document.getElementById('clientDetailsContent');
-
-            const clientName = selectElement.options[selectElement.selectedIndex].value;
+            const labelElement = document.querySelector('label[for="clientDetailsContent"]');
+            const clientName = labelElement.textContent;
             
             // Send the HTML content to the server
             fetch('/savePDF', {
