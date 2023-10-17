@@ -1,0 +1,21 @@
+<nav class="sidebar">
+    <div class="p-4">
+        <ul class="list-unstyled">
+            <li>
+                <a href="/" class="nav-link <%= currentRoute === '/' ? 'active' : '' %>" data-target="client">Client</a>
+            </li>
+            <li>
+                <a href="/invoice" class="nav-link <%= currentRoute === '/invoice' ? 'active' : '' %>" data-target="invoice">Create Invoice</a>
+            </li>
+            <li>
+                <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+            </li>
+            <li>
+                <a href="/control" class="nav-link <%= currentRoute === '/control' ? 'active' : '' %>" data-target="menu">Control</a>
+            </li>
+            <li>
+                <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,41 @@
+<!-- The Modal -->
+<div class="modal fade" id="<%= client.replace(/ /g, '_') %>emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailModalLabel">Send Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="button-box p-3 border">
+                    <div class="form-group mt-3">
+                        <label for="toEmail">To:</label>
+                        <input type="text" class="form-control" id="toEmail" name="toEmail" value="<%= getClientData(client, 'emailAddress') %>" readonly>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="titleInput mt-4">Title:</label>
+                        <input type="text" class="form-control" id="titleInput" name="titleInput">
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="richTextEditor">Body Message:</label>
+                        <textarea class="form-control rich-input mt-1" id="body" name="body" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="attachmentSelect">Select Attachment:</label>
+                        <select class="form-control" id="attachmentSelect" name="attachmentSelect">
+                            <option value="attachment1">Attachment 1</option>
+                            <option value="attachment2">Attachment 2</option>
+                            <option value="attachment3">Attachment 3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="sendEmailButton">Send Email</button>
+            </div>
+        </div>
+    </div>
+</div>

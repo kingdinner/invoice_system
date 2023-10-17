@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="light-gray-bg">
+    <%- include('../views/components/sidebar/sidebar.ejs') %>
+    <div class="content">
+        <div class="container">
+            <h1 class="mt-2">Client Details</h1>
+            <button class="btn btn-primary client-button" data-toggle="modal" data-target="#newClientModal" data-client="#">
+                <i class="fas fa-plus"></i> Add new client
+              </button>
+            <ul>
+                <% clients.forEach((client, index) => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
+                        <div class="d-flex">
+                            <div class="col-11"> <!-- Adjust the col-* class as needed -->
+                                <%= index + 1 %>. <%= client %>
+                            </div>
+                            <div class="col-1"> <!-- Adjust the col-* class as needed -->
+                                <button class="btn btn-primary btn-sm details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>"><i class="fas fa-pen-to-square"></i></button>
+                            </div>
+                        </div>
+                        <container>
+                            <!-- <button class="btn btn-primary details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">Details</button> -->
+                            <button class="btn btn-primary historydetails-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>historyModal" data-client="<%= client %>">History</button>
+                            <button class="btn btn-primary email-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>emailModal" data-client="<%= client %>">Send Email</button>
+                            <!-- <button class="btn btn-primary email-button" data-toggle="modal" data-target="#emaildetaillabel" data-client="<%= client %>">Edit Template</button> -->
+                        </container>
+                    </li>
+                    <%- include('../views/components/modal/detailsModal/modal.ejs', {client: client}) %>
+                    <%- include('../views/components/modal/newClientModal/modal.ejs') %>
+                    <%- include('../views/control/sendEmail.ejs', {client: client}) %>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
