@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="light-gray-bg">
+    <%- include('../views/components/partials/sidebar.ejs') %>
+    <div class="content">
+        <div class="container mt-4">
+            <h1 class="mt-2">Company Information</h1>
+    
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="companyName">Company Name:</label>
+                        <input type="text" class="form-control form-control-sm" id="companyName" value="<%= inMemoryCompanyInformation.companyName %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control form-control-sm" id="address" value="<%= inMemoryCompanyInformation.address %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress">Email Address:</label>
+                        <input type="text" class="form-control form-control-sm" id="emailAddress" value="<%= inMemoryCompanyInformation.emailAddress %>">
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Banking Details</div>
+                        <div class="card-body py-2 px-5" id="bankingDetailsContainer">
+                            <% inMemoryCompanyInformation.bankingDetails.forEach((bankingDetail, index) => { %>
+                            <form class="banking-form custom-box mt-3">
+                                    <div class="form-group">
+                                        <label for="bankName<%= index %>">お振込先:</label>
+                                        <input type="text" class="form-control form-control-sm" id="bankName<%= index %>" value="<%= bankingDetail.bankName%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="companyName<%= index %>">名義:</label>
+                                        <input type="text" class="form-control form-control-sm" id="companyName<%= index %>" value="<%= bankingDetail.companyName %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="branchNo<%= index %>">支店番号:</label>
+                                        <input type="text" class="form-control form-control-sm" id="branchNo<%= index %>" value="<%= bankingDetail.branchNo %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="branchName<%= index %>">支店名:</label>
+                                        <input type="text" class="form-control form-control-sm" id="branchName<%= index %>" value="<%= bankingDetail.branchName %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type<%= index %>">口座の種類:</label>
+                                        <input type="text" class="form-control form-control-sm" id="type<%= index %>" value="<%= bankingDetail.type %>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="accountNo<%= index %>">口座番号:</label>
+                                        <input type="text" class="form-control form-control-sm" id="accountNo<%= index %>" value="<%= bankingDetail.accountNo %>">
+                                    </div>
+                            </form>
+                            <% }); %>
+                        </div>
+                        <div class="row justify-content-end py-2">
+                            <div class="col-md-6">
+                                <button id="addForm" class="btn btn-primary btn-sm mr-2">Add More</button>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="taxRegisteredNumber">Tax Registered No. (登録番号):</label>
+                        <input type="text" class="form-control form-control-sm" id="taxRegisteredNumber" placeholder="Your Tax Registered Number" value="<%= inMemoryCompanyInformation.taxRegistrationNumbers %>">
+                    </div>
+                    <div class="justify-content-end py-2">
+                        <button id="saveForm" class="btn btn-primary btn-sm">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('../views/components/partials/footer.ejs') %>

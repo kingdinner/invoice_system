@@ -27,4 +27,10 @@ router.post('/sendEmail', clientController.sendEmail);
 router.get('/control/sendEmail/:clientName', clientController.rendercontrolEmail);
 router.get('/control/createInvoice/:clientName', clientController.renderInvoice);
 
+router.get('/control/history/:clientName', clientController.rendercontrolHistory);
+
+
+router.get('/company-information', clientController.renderCompanyInformation);
+router.post('/update/companyInformation', clientController.updatecompanyInformation);
+
 module.exports = router;

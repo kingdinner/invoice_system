@@ -37,10 +37,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
     const sidebarLinks = document.querySelectorAll('.nav-link');
     sidebarLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            sidebarLinks.forEach(link => link.classList.remove('active'));
-            link.classList.add('active');
-        });
+        if (link) {
+            link.addEventListener('click', () => {
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+                link.classList.add('active');
+            });
+        }
     });
 
     // const table = document.getElementById('invoicetable');
@@ -236,8 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const menuForm = document.getElementById("menuForm");
 
@@ -292,30 +292,113 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(document).ready(function() {
     $("#sendEmailButton").on("click", function() {
-        var selectedTemplate = $("#templateSelect").val();
+        var selectedTemplate = $("#messageType").val();
         var bodyMessage = $("#body").val();
         var attachment = $("#attachmentSelect").val();
+        var title = $("#titleInput").val();
         var clientAddress = "client@example.com"; // Replace with the actual client address
-
+        $("#loadingIndicator").show();
         var formData = {
             selectedTemplate: selectedTemplate,
             bodyMessage: bodyMessage,
             attachment: attachment,
             clientAddress: clientAddress,
+            title
         };
-        
         $.ajax({
             type: "POST",
             url: "/sendEmail",
             data: formData,
             success: function(response) {
                 // Handle the response if needed
+                $("#loadingIndicator").hide();
+
                 console.log(response);
             },
             error: function(error) {
                 // Handle errors if the request fails
+                $("#loadingIndicator").hide();
                 console.error('Error:', error);
             }
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const bankingDetailsContainer = document.getElementById('bankingDetailsContainer');
+    const addFormButton = document.getElementById('addForm');
+
+    let currentIndex = 0;
+    if (addFormButton) {
+        addFormButton.addEventListener('click', function () {
+            const clonedForm = document.querySelector('.banking-form').cloneNode(true);
+
+            // Increment the index and update IDs
+            currentIndex++;
+            clonedForm.querySelectorAll('input').forEach(input => {
+                const id = input.getAttribute('id');
+                if (id) {
+                    input.setAttribute('id', id + currentIndex);
+                    input.value = ''; // Clear input values in the cloned form
+                }
+            });
+
+            bankingDetailsContainer.appendChild(clonedForm);
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const saveForm = document.getElementById('addForm');
+    if (saveForm) {
+        saveForm.addEventListener('click', function () {
+            event.preventDefault();
+            // Collect form data
+            const formData = {
+                companyName: document.getElementById("companyName").value,
+                address: document.getElementById("address").value,
+                emailAddress: document.getElementById("emailAddress").value,
+                bankingDetails: []
+            };
+
+            // Determine the number of banking details forms
+            const bankingForms = document.querySelectorAll(".banking-form");
+
+            const bankingDetails = [];
+
+            bankingForms.forEach(function (form) {
+                const bankingDetail = {
+                    bankName: form.querySelector('input[id^="bankName"]').value || '',
+                    companyName: form.querySelector('input[id^="companyName"]').value || '',
+                    branchNo: form.querySelector('input[id^="branchNo"]').value || '',
+                    branchName: form.querySelector('input[id^="branchName"]').value || '',
+                    type: form.querySelector('input[id^="type"]').value || '',
+                    accountNo: form.querySelector('input[id^="accountNo"]').value || ''
+                };
+            
+                bankingDetails.push(bankingDetail);
+            });
+            
+            formData.bankingDetails = bankingDetails;
+
+            formData.taxRegisteredNumber = document.getElementById("taxRegisteredNumber").value;
+            // Send the form data to the server using a POST request
+            fetch('/update/companyInformation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                // Handle the response (e.g., display success or error message)
+                console.log(response);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error(error);
+            });
+        })
+    }
 });

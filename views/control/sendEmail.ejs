@@ -29,10 +29,13 @@
     </nav>    
     <div class="content">
         <div class="container">
+            <div id="loadingIndicator" style="display: none;">
+                <p>Loading...</p>
+            </div>
             <h1>Send Email</h1>
             <div class="form-group mt-3">
                 <label for="toEmail">To:</label>
-                <input type="text" class="form-control" id="toEmail" name="toEmail" value="<%= client %>" readonly>
+                <input type="text" class="form-control" id="toEmail" name="toEmail" value="<%= getClientData(client, 'emailAddress') %>" readonly>
             </div>
             <div class="form-group mt-3">
                 <label for="titleInput">Title:</label>
@@ -50,9 +53,10 @@
                 <button type="button" class="btn btn-sm btn-primary" id="sendEmailButton">Send Email</button>
                 <div class="form-group ml-2">
                     <select class="form-control form-control-sm" id="attachmentSelect" name="attachmentSelect">
-                        <option value="attachment1">Attachment 1</option>
-                        <option value="attachment2">Attachment 2</option>
-                        <option value="attachment3">Attachment 3</option>
+                        <% invoiceData.forEach((invoice, index) => { %>
+                            <% console.log(invoice) %>
+                            <option value="<%= invoice %>"><%= invoice %></option>
+                        <% }); %>
                     </select>
                 </div>
             </div>                         

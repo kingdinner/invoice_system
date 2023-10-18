@@ -1,6 +1,8 @@
 // Define your array of client names
 const invoiceController = require('../controllers/invoiceController');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
+const path = require('path');
 
 let inMemoryData = [{
     clients: [
@@ -22,11 +24,7 @@ let inMemoryData = [{
     ]
 }];
 
-let inMemoryHistory = {
-    2023: {
-        client: {}
-    }
-}
+let inMemoryHistory = {"2023":{"January":{"client":{"Joe":[]}},"October":{"client":{"Joe":["invoice_20231018110214.pdf","invoice_20231018110432.pdf"]}}}}
 
 let inMemoryEmailTemplate = {
     template: [
@@ -34,6 +32,32 @@ let inMemoryEmailTemplate = {
         "It was great to work with "
     ]
 }
+
+let inMemoryCompanyInformation = {
+    companyName: "J-wire株式会社",
+    address: "1234 Tech Park Avenue, Example Example",
+    emailAddress: "J-wire株式会社@example.com",
+    bankingDetails: [
+        {
+            companyName: "J-wire株式会社",
+            bankName: "住信SBIネット銀行",
+            branchNo: "106",
+            branchName: "法人第一支店",
+            type: "普通",
+            accountNo: "1193845"
+        },
+        {
+            companyName: "J-wire株式会社",
+            bankName: "住信SBIネット銀行",
+            branchNo: "106",
+            branchName: "法人第一支店",
+            type: "普通",
+            accountNo: "1193845"
+        }
+    ],
+    taxRegistrationNumbers: "T9080401021109"
+};
+
 
 let inMemoryDataMenus = [
     {
@@ -76,7 +100,6 @@ const renderClientDetails = (req, res) => {
 const newClient = (req,res) => {
     const {clientname, companyName, personInCharge, address, emailAddress, notes} = req.body
     const clientDataArray = inMemoryData[0].clients;
-    console.log(companyName)
     const newClient = {
         client: clientname,
         companyName,
@@ -128,7 +151,6 @@ const emailSaveDetails = (req, res) => {
     updateDatas.emailTemplate = req.body.bodyTemplate
 
     inMemoryData[0].clients[clientKey] = updateDatas
-    console.log(JSON.stringify(inMemoryData))
 
     const clients = getClientNames()
 
@@ -142,7 +164,6 @@ const insertMenus = (req, res) => {
 };
 
 const renderInvoice = (req, res) => {
-    console.log(req.params.clientName)
     res.render('invoice', { client: req.params.clientName, menu: inMemoryDataMenus });
 }
 
@@ -152,26 +173,26 @@ const renderMenu = (req, res) => {
 
 const generatePDF = async (req, res) => {
     const invoiceHTML = req.body.content
-    const client = req.body.clientName
+    const client = req.body.clientName.trim().replace(/ /g, '_');
   try {
     const filenamePath = await invoiceController.generateInvoicePDF(invoiceHTML, client);
     const currentYear = new Date().getFullYear(); 
+    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
 
-    // Check if the current year exists in inMemoryHistory
     if (!inMemoryHistory[currentYear]) {
-        inMemoryHistory[currentYear] = {
-            client: {}
+        inMemoryHistory[currentYear] = {};
+    }
+    
+    if (!inMemoryHistory[currentYear][currentMonth]) {
+        inMemoryHistory[currentYear][currentMonth] = {
+            client: {
+                [client]: [],
+            },
         };
     }
 
-    // Check if the client exists in inMemoryHistory for the current year
-    if (!inMemoryHistory[currentYear].client[client]) {
-        inMemoryHistory[currentYear].client[client] = [];
-    }
-
     // Push the filenamePath to the client's invoices array
-    inMemoryHistory[currentYear].client[client].push(filenamePath);
-    console.log(JSON.stringify(inMemoryHistory));
+    inMemoryHistory[currentYear][currentMonth].client[client].push(filenamePath);
     // Respond with a download link for the generated PDF
     res.render('invoice', { client, menu: inMemoryDataMenus });
   } catch (error) {
@@ -212,49 +233,96 @@ const insertEmailTemplate = async(req, res) => {
 }
 
 const rendercontrolEmail = (req, res) => {
-    const emailValues = inMemoryEmailTemplate.template
-    res.render('control/sendEmail', { client: req.params.clientName, emailValues, getClientData: getClientData });
+    const emailValues = inMemoryEmailTemplate.template;
+    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+    const clientName = req.params.clientName;
+    const currentYear = new Date().getFullYear(); // Get the current year dynamically
+
+    // Retrieve client data for the current month, client, and year
+
+    const invoiceData = inMemoryHistory[currentYear][currentMonth].client[clientName];
+    res.render('control/sendEmail', { client: clientName, emailValues, invoiceData, getClientData });
 }
 
+
 const sendEmail = (req, res) => {
-    const selectedTemplate = req.body.selectedTemplate;
-    const bodyMessage = req.body.bodyMessage;
+    const companyEmail = inMemoryCompanyInformation.emailAddress
+    const bodyMessage = req.body.selectedTemplate;
     const attachment = req.body.attachment;
     const clientAddress = req.body.clientAddress;
+    const title = req.body.title;
+    const attachmentPath = path.resolve(__dirname, `../public/history/Joe/${attachment}`);
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
-        service: 'your_email_service', // e.g., 'Gmail', 'Outlook'
+        host: 'sandbox.smtp.mailtrap.io', // Mailtrap SMTP host
+        port: 2525, // Mailtrap SMTP port
         auth: {
-            user: 'your_email@gmail.com',
-            pass: 'your_password',
+            user: process.env.MAILTRAP_USER, // Mailtrap username (replace with your credentials)
+            pass: process.env.MAILTRAP_PASS, // Mailtrap password (replace with your credentials)
         },
     });
-
     // Define the email content
     const mailOptions = {
-        from: 'your_email@gmail.com',
+        from: companyEmail,
         to: clientAddress,
-        subject: 'Your Subject Here',
+        subject: title,
         text: bodyMessage,
         html: `<p>${bodyMessage}</p>`,
         attachments: [
             {
-                filename: attachment.name,
-                content: attachment.data,
+                filename: attachment,
+                path: attachmentPath, // Specify the correct file path
             },
         ],
     };
-    console.log(mailOptions)
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('Error sending email: ' + error);
             res.status(500).json({ error: 'Error sending email' });
         } else {
             console.log('Email sent: ' + info.response);
-            res.render('control');
+
+            // Check if the attachment was sent successfully
+            if (info.accepted.includes(clientAddress)) {
+                console.log('Attachment sent successfully.');
+            } else {
+                console.error('Attachment not sent.');
+            }
+
+            const emailValues = inMemoryEmailTemplate.template;
+            const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+            const clientName = req.params.clientName;
+            const currentYear = new Date().getFullYear(); // Get the current year dynamically
+        
+            // Retrieve client data for the current month, client, and year
+        
+            inMemoryHistory[currentYear][currentMonth].client[clientName].push(attachment);
+            console.log(inMemoryHistory)
+            console.log("success")
+            res.render('control/sendEmail', { client: clientName, emailValues, invoiceData, getClientData });
         }
     });
+}
+
+const rendercontrolHistory = (req, res) => {
+    const emailValues = inMemoryEmailTemplate.template;
+    const clientName = req.params.clientName;
+
+     const clientData = inMemoryHistory;
+    // Retrieve client data for the current month, client, and year
+
+    const invoiceData = inMemoryHistory;
+    res.render('control/history', { client: clientName, clientData, invoiceData, getClientData });
+}
+
+const renderCompanyInformation = (req, res) => {
+    res.render('companyInformation', {inMemoryCompanyInformation});
+}
+
+const updatecompanyInformation = (req,res) => {
+    inMemoryCompanyInformation = req.body
+    res.render('companyInformation', {inMemoryCompanyInformation});
 }
 
 module.exports = {
@@ -270,5 +338,8 @@ module.exports = {
     updateEmailTemplate,
     insertEmailTemplate,
     rendercontrolEmail,
-    sendEmail
+    sendEmail,
+    rendercontrolHistory,
+    renderCompanyInformation,
+    updatecompanyInformation
 };
