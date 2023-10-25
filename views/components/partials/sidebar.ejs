@@ -1,10 +1,9 @@
-
 <nav class="sidebar">
     <div class="p-4">
         <ul class="list-unstyled">
             <li>
-                <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/sendEmail/') ? 'active' : '' %>" data-target="client">Client</a>
-            </li>          
+                <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+            </li>    
             <li>
                 <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
             </li>

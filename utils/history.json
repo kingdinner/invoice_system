@@ -1,0 +1,9 @@
+{
+    "2023": {
+      "January": { "client": { "Joe": [] } },
+      "October": {
+        "client": { "Joe": ["invoice_20231018110214.pdf", "invoice_20231018110432.pdf"] }
+      }
+    }
+  }
+  

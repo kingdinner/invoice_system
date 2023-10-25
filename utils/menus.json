@@ -1,0 +1,15 @@
+[
+    {
+      "name": "asdasd",
+      "details": "Sample details 1",
+      "price": 10.99,
+      "tax": 4
+    },
+    {
+      "name": "example",
+      "details": "Sample details 2",
+      "price": 15.99,
+      "tax": 5
+    }
+  ]
+  

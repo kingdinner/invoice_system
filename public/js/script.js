@@ -115,31 +115,62 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function() {
     const priceCells = document.querySelectorAll('.price');
     const totalCells = document.querySelectorAll('.total');
+    const unitCells = document.querySelectorAll('.unit');
+    const quantityCells = document.querySelectorAll('.quantity');
+    const taxCells = document.querySelectorAll('.tax');
     const subtotalCell = document.querySelector('.subtotal');
     const totalTaxableCell = document.querySelector('.totalTaxable');
-    const taxCells = document.querySelectorAll('.tax');
     const saleTaxCell = document.querySelector('.saleTax');
     const totalAmountCell = document.querySelector('.totalAmount');
+    const displayTotalCell = document.querySelector('.displayTotal');
 
     // Initialize total cells with the price for each row
     priceCells.forEach((priceCell, index) => {
         updateTotalForRow(index);
     });
 
+    // Add an input event listener for each price cell to update the total dynamically
+    unitCells.forEach((unitCell, index) => {
+        unitCell.addEventListener('input', function() {
+            updateTotalForRow(index);
+        });
+    });
+
+    priceCells.forEach((priceCell, index) => {
+        priceCell.addEventListener('input', function() {
+            updateTotalForRow(index);
+        });
+    });
+    taxCells.forEach((taxCell, index) => {
+        taxCell.addEventListener('input', function() {
+            calculateTotalTaxable();
+            calculateSaleTax();
+            calculateTotalAmount();
+        });
+    });
+
     // Function to update the total for a specific row
     function updateTotalForRow(index) {
+        const unitCell = unitCells[index];
         const priceCell = priceCells[index];
         const totalCell = totalCells[index];
 
+        const unit = parseFloat(unitCell.innerText);
         const price = parseFloat(priceCell.innerText);
-        if (!isNaN(price)) {
-            totalCell.innerText = '¥' + price.toFixed(2);
+
+        if (!isNaN(unit) && !isNaN(price)) {
+            const total = unit * price;
+            totalCell.innerText = '¥' + total.toFixed(2);
+        } else {
+            totalCell.innerText = ''; // Clear the total cell if inputs are invalid
         }
+
         calculateSubtotal();
         calculateTotalTaxable();
         calculateSaleTax();
         calculateTotalAmount();
     }
+
 
     // Function to calculate the subtotal
     function calculateSubtotal() {
@@ -155,11 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
         subtotalCell.innerText = '¥' + subtotal.toFixed(2);
     }
 
+
     // Function to calculate the total taxable
     function calculateTotalTaxable() {
         let totalTaxable = 0;
-        totalCells.forEach((totalCell, index) => {
-            const taxCell = taxCells[index];
+        taxCells.forEach((taxCell, index) => {
+            const totalCell = totalCells[index];
             const total = parseFloat(totalCell.innerText.replace('¥', ''));
             const tax = parseFloat(taxCell.innerText);
 
@@ -171,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the totalTaxable cell
         totalTaxableCell.innerText = '¥' + totalTaxable.toFixed(2);
     }
+
 
     // Function to calculate the total sale tax
     function calculateSaleTax() {
@@ -194,15 +227,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isNaN(subtotal) && !isNaN(saleTax)) {
             const totalAmount = subtotal + saleTax;
             totalAmountCell.innerText = '¥' + totalAmount.toFixed(2);
+            displayTotalCell.innerText = totalAmount.toFixed(2);
         }
     }
-
-    // Add an input event listener for each price cell to update the total dynamically
-    priceCells.forEach((priceCell, index) => {
-        priceCell.addEventListener('input', function() {
-            updateTotalForRow(index);
-        });
-    });
 });
 
 
@@ -401,4 +428,79 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         })
     }
+});
+
+$(document).ready(function() {
+    $(".edit-button").on("click", function() {
+        var index = $(this).data("index");
+        $("#labelText" + index).hide();
+        $("#editInput" + index).show();
+        $("#editButton" + index).hide();
+        $("#saveButton" + index).show();
+    });
+
+    $(".save-button").on("click", function() {
+        var index = $(this).data("index");
+        var editedText = $("#editInput" + index).val();
+        $("#labelText" + index).text(editedText);
+        $("#editInput" + index).hide();
+        $("#labelText" + index).show();
+        $("#editButton" + index).show();
+        $("#saveButton" + index).hide();
+
+        $.ajax({
+            type: "POST",
+            url: "/updateEmailTemplate",
+            data: {
+                index: index,
+                editedText: editedText
+            },
+            success: function(response) {
+                // Handle the response if needed
+            },
+            error: function(error) {
+                // Handle errors if the request fails
+            }
+        });
+    });
+});
+function decodeHTMLEntities(str) {
+    return str.replace(/&#(\d+);/g, function(match, dec) {
+      return String.fromCharCode(dec);
+    });
+}
+  
+const selectionBankDetail = document.getElementById('selectionBankDetail');
+const bankName = document.getElementById('bankName');
+const bankNameDetails = document.getElementById('bankNameDetails');
+const branchNo = document.getElementById('branchNo');
+const branchName = document.getElementById('branchName');
+const type = document.getElementById('type');
+const accountNo = document.getElementById('accountNo');
+
+const decodedJSON = JSON.parse(decodeHTMLEntities(bankDetails));
+console.log(decodedJSON)
+selectionBankDetail.addEventListener('change', function() {
+    const selectedBank = selectionBankDetail.value;
+
+    const matchingDetails = decodedJSON.filter(detail => detail.companyName === selectedBank);
+    console.log(matchingDetails[0])
+    console.log(matchingDetails[0].bankName)
+    if (selectedBank in matchingDetails) {
+        bankName.textContent = matchingDetails.bankName;
+        bankNameDetails.textContent = matchingDetails.bankNameDetails;
+        branchNo.textContent = matchingDetails.branchNo;
+        branchName.textContent = matchingDetails.branchName;
+        type.textContent = matchingDetails.type;
+        accountNo.textContent = matchingDetails.accountNo;
+    } else {
+        bankName.textContent = '';
+        bankNameDetails.textContent = '';
+        branchNo.textContent = '';
+        branchName.textContent = '';
+        type.textContent = '';
+        accountNo.textContent = '';
+    }
+  
+
 });

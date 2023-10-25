@@ -13,7 +13,7 @@
         <div class="p-4">
             <ul class="list-unstyled">
                 <li>
-                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/sendEmail/') ? 'active' : '' %>" data-target="client">Client</a>
+                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
                 </li>    
                 <li>
                     <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
@@ -46,7 +46,11 @@
                                     <td><%= month %></td>
                                     <td>Invoice</td>
                                     <td>
-                                        <a href="/public/history/<%= client %>/<%= clientData[year][month].client[client][0] %>"><%= clientData[year][month].client[client][0] %></a><br>
+                                        <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
+                                            <% for (const attachment of clientData[year][month].client[client]) { %>
+                                                <a href="/public/history/<%= client %>/<%= attachment %>"><%= attachment %></a><br>
+                                            <% } %>
+                                        <% } %>
                                     </td>
                                 </tr>
                             <% } %>

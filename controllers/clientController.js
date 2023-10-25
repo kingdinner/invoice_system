@@ -24,7 +24,7 @@ let inMemoryData = [{
     ]
 }];
 
-let inMemoryHistory = {"2023":{"January":{"client":{"Joe":[]}},"October":{"client":{"Joe":["invoice_20231018110214.pdf","invoice_20231018110432.pdf"]}}}}
+let inMemoryHistory = {"2023":{"January":{"client":{Joe:[]}},"October":{"client":{Joe:["invoice_20231018110214.pdf","invoice_20231018110432.pdf"]}}}}
 
 let inMemoryEmailTemplate = {
     template: [
@@ -47,7 +47,7 @@ let inMemoryCompanyInformation = {
             accountNo: "1193845"
         },
         {
-            companyName: "J-wire株式会社",
+            companyName: "Western Union",
             bankName: "住信SBIネット銀行",
             branchNo: "106",
             branchName: "法人第一支店",
@@ -164,7 +164,21 @@ const insertMenus = (req, res) => {
 };
 
 const renderInvoice = (req, res) => {
-    res.render('invoice', { client: req.params.clientName, menu: inMemoryDataMenus });
+    const bankList = [];
+
+    // Iterate through the bankingDetails and collect unique bank names
+    for (const detail of inMemoryCompanyInformation.bankingDetails) {
+      if (detail.companyName && !bankList.includes(detail.companyName)) {
+        bankList.push(detail.companyName);
+      }
+    }
+
+    res.render('control/invoice', { 
+        client: req.params.clientName, 
+        menu: inMemoryDataMenus, 
+        company: inMemoryCompanyInformation,
+        bankList
+    });
 }
 
 const renderMenu = (req, res) => {
@@ -191,10 +205,17 @@ const generatePDF = async (req, res) => {
         };
     }
 
+    if (!inMemoryHistory[currentYear][currentMonth].client[client]) {
+        inMemoryHistory[currentYear][currentMonth].client = {
+            [client]: []
+        };
+    }
+    
     // Push the filenamePath to the client's invoices array
     inMemoryHistory[currentYear][currentMonth].client[client].push(filenamePath);
     // Respond with a download link for the generated PDF
-    res.render('invoice', { client, menu: inMemoryDataMenus });
+    console.log("completed")
+    res.render('control/invoice', { client, menu: inMemoryDataMenus });
   } catch (error) {
     res.status(500).send('Error generating the invoice.');
   }
@@ -298,16 +319,13 @@ const sendEmail = (req, res) => {
             // Retrieve client data for the current month, client, and year
         
             inMemoryHistory[currentYear][currentMonth].client[clientName].push(attachment);
-            console.log(inMemoryHistory)
-            console.log("success")
             res.render('control/sendEmail', { client: clientName, emailValues, invoiceData, getClientData });
         }
     });
 }
 
 const rendercontrolHistory = (req, res) => {
-    const emailValues = inMemoryEmailTemplate.template;
-    const clientName = req.params.clientName;
+    const clientName = req.params.clientName.replace(/\s/g, '_').trim();;
 
      const clientData = inMemoryHistory;
     // Retrieve client data for the current month, client, and year
@@ -341,5 +359,5 @@ module.exports = {
     sendEmail,
     rendercontrolHistory,
     renderCompanyInformation,
-    updatecompanyInformation
+    updatecompanyInformation,
 };

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<script>
+    const bankDetails = `<%= JSON.stringify(company.bankingDetails) %>`;
+</script>
+<body>
+    <nav class="sidebar">
+        <div class="p-4">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+                </li>    
+                <li>
+                    <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+                </li>
+                <li>
+                    <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+                </li>
+                <li>
+                    <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
+    <div class="content">
+        <div class="container text-center">
+            <h1 class="mt-2">御請求書</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="mt-2 mr-2">To: </label>
+                        <label for="clientDetailsContent" class="mt-2 mr-2"><%= client %></label>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>発行日</td>
+                                <td class="text-center" contenteditable="true">2023年10月7日</td>
+                            </tr>
+                            <tr>
+                                <td>お支払い期限</td>
+                                <td class="text-center" contenteditable="true">2023年10月31日</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                     
+            <div>
+                <p>千葉県市川市市川南1-7-24-101</p>
+            </div>
+            <div class="col-md-4 custom-pt-7">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                      <tr>
+                        <td>御請求金額</td>
+                        <td>¥</td>
+                        <td class="displayTotal">263560</td>
+                      </tr>
+                  </table>
+                <div class="custom-pr-3">
+                    <p>毎度お引き立てを賜りありがとうございます。</p>
+                    <p>下記のとおりご請求申し上げます。</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+                <p>J-wire 株式会社</p>
+                <p>代表取締役内山剛臣</p>
+                
+                <p>〒432-8031</p>
+                <p>浜松市中区平田町108 平田ホワイトビル3F</p>
+                <p>053-482-7913</p>
+
+                <p>登録番号:T9080401021109</p>
+                
+            </div>
+            <div class="col-md-2 custom-pt-12">
+                <img src="../../public/images/thumb.png" alt="Description of the image">
+            </div>
+        </div>
+        <div>
+            <table id="invoicetable" class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th class="border-2">項目</th>
+                    <th class="border-2">個</th>
+                    <th class="border-2">為替</th>
+                    <th class="border-2">金額</th>
+                    <th class="border-2">消費税率</th>
+                    <th class="border-2">合計</th>
+                  </tr>
+                </thead>
+                <tbody >
+                    <% menu.forEach((item, index) => { %>
+                        <tr>
+                            <td contenteditable="true" class="border-1"><%= item.name %></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"><%= item.price %></td>
+                            <td contenteditable="true" class="tax border-1"><%= item.tax %></td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    <% }); %>
+                    <tr>
+                        <td contenteditable="true" class="name border-1"></td>
+                        <td contenteditable="true" class="unit border-1"></td>
+                        <td contenteditable="true" class="quantity border-1"></td>
+                        <td contenteditable="true" class="price border-1"></td>
+                        <td contenteditable="true" class="tax border-1"></td>
+                        <td contenteditable="false" class="total border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="name border-1"></td>
+                        <td contenteditable="true" class="unit border-1"></td>
+                        <td contenteditable="true" class="quantity border-1"></td>
+                        <td contenteditable="true" class="price border-1"></td>
+                        <td contenteditable="true" class="tax border-1"></td>
+                        <td contenteditable="false" class="total border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="name border-1"></td>
+                        <td contenteditable="true" class="unit border-1"></td>
+                        <td contenteditable="true" class="quantity border-1"></td>
+                        <td contenteditable="true" class="price border-1"></td>
+                        <td contenteditable="true" class="tax border-1"></td>
+                        <td contenteditable="false" class="total border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="name border-1"></td>
+                        <td contenteditable="true" class="unit border-1"></td>
+                        <td contenteditable="true" class="quantity border-1"></td>
+                        <td contenteditable="true" class="price border-1"></td>
+                        <td contenteditable="true" class="tax border-1"></td>
+                        <td contenteditable="false" class="total border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="name lastFreeColumn border-1"></td>
+                        <td contenteditable="true" class="unit border-1"></td>
+                        <td contenteditable="true" class="quantity border-1"></td>
+                        <td contenteditable="true" class="price border-1"></td>
+                        <td contenteditable="true" class="tax border-1"></td>
+                        <td contenteditable="false" class="total border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">小計</td>
+                        <td contenteditable="true" class="subtotal border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-top">お振込先: 
+                            <select id="selectionBankDetail" name="selectionBankDetail">
+                                <% bankList.forEach(option => { %>
+                                    <option value="<%= option %>"><%= option %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                        <td contenteditable="true" class="border-1">非課税対照</td>
+                        <td contenteditable="true" class="border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4"  class="border-0">楽天銀行</td>
+                        <td contenteditable="true" class="border-1" id="bankName">課税対象:</td>
+                        <td contenteditable="true" class="totalTaxable border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="bankNameDetails">楽天銀行</td>
+                        <td contenteditable="true" class="border-1">消費税</td>
+                        <td contenteditable="true" class="saleTax border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4"class="border-0" id="branchNo">支店番号：252</td>
+                        <td contenteditable="true" class="border-1">合計金額</td>
+                        <td contenteditable="true" class="totalAmount border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchName">支店名：第二営業支店</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="type">口座の種類：普通</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo">口座番号：7522113</td>
+                    </tr>
+                </tbody >
+              </table>
+              <textarea class="form-control rich-input" id="comment" name="comment" rows="4"></textarea>
+            </div >
+        </div>
+    </div>
+    <div class="container mt-12 d-flex justify-content-center">
+        <button id="saveAndSubmitButton" class="btn btn-primary btn-lg invoice-button">Save</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+    </body>
+    </html>
