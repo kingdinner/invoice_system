@@ -26,11 +26,16 @@ systemctl enable docker
 # Step 8: Pull the Docker image from Docker Hub
 docker pull kingdinner1/invoice_system
 
-# Step 9: Run the Docker container
-docker run -d -p 3000:3000 kingdinner1/invoice_system
+# Step 9: Run the Docker container directly on port 80
+docker run -d -p 80:80 kingdinner1/invoice_system
 
-# Step 10: Add Nginx Configuration for Basic Authentication
+# Step 10: Configure Nginx to handle traffic on port 80 and proxy to the Docker container
 echo 'server {
+    listen 80;
+    location / {
+        proxy_pass http://localhost:80;
+    }
+
     location /protected {
         auth_basic "Restricted Content";
         auth_basic_user_file /etc/nginx/.htpasswd;

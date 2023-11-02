@@ -260,8 +260,18 @@ const rendercontrolEmail = (req, res) => {
     const currentYear = new Date().getFullYear(); // Get the current year dynamically
 
     // Retrieve client data for the current month, client, and year
-
-    const invoiceData = inMemoryHistory[currentYear][currentMonth].client[clientName];
+    let invoiceData
+    if (inMemoryHistory[currentYear][currentMonth]) {
+        invoiceData = inMemoryHistory[currentYear][currentMonth].client[clientName];
+    } else {
+        if (!inMemoryHistory[currentYear]) {
+            inMemoryHistory[currentYear] = {}; // Initialize the year object if it doesn't exist
+        }
+        
+        if (!inMemoryHistory[currentYear][currentMonth]) {
+            inMemoryHistory[currentYear][currentMonth] = {'client':{}}; // Initialize the month object if it doesn't exist
+        }
+    }
     res.render('control/sendEmail', { client: clientName, emailValues, invoiceData, getClientData });
 }
 
@@ -325,14 +335,30 @@ const sendEmail = (req, res) => {
 }
 
 const rendercontrolHistory = (req, res) => {
-    const clientName = req.params.clientName.replace(/\s/g, '_').trim();;
-
-     const clientData = inMemoryHistory;
-    // Retrieve client data for the current month, client, and year
-
-    const invoiceData = inMemoryHistory;
-    res.render('control/history', { client: clientName, clientData, invoiceData, getClientData });
+    const clientName = req.params.clientName.replace(/\s/g, '_').trim();
+    const months = [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+    const year = new Date().getFullYear();
+    
+    const newInMemoryHistory = {}; // Creating a new object to store corrected month structure
+    newInMemoryHistory[year] = {};
+    
+    months.forEach(month => {
+        if (!inMemoryHistory[year][month]) {
+            newInMemoryHistory[year][month] = { "client": {} };
+        } else {
+            newInMemoryHistory[year][month] = inMemoryHistory[year][month];
+        }
+    });
+    
+    const clientData = newInMemoryHistory;
+    res.render('control/history', { client: clientName, clientData, getClientData, changeBasedYear });
 }
+
+const changeBasedYear = (selectedYear) => {
+    clientData[selectedYear] = inMemoryHistory[selectedYear] || {};
+};
 
 const renderCompanyInformation = (req, res) => {
     res.render('companyInformation', {inMemoryCompanyInformation});

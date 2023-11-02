@@ -53,10 +53,12 @@
                 <button type="button" class="btn btn-sm btn-primary" id="sendEmailButton">Send Email</button>
                 <div class="form-group ml-2">
                     <select class="form-control form-control-sm" id="attachmentSelect" name="attachmentSelect">
-                        <% invoiceData.forEach((invoice, index) => { %>
-                            <% console.log(invoice) %>
-                            <option value="<%= invoice %>"><%= invoice %></option>
-                        <% }); %>
+                        <% if (invoiceData) { %>
+                            <% invoiceData.forEach((invoice, index) => { %>
+                                <% console.log(invoice) %>
+                                <option value="<%= invoice %>"><%= invoice %></option>
+                            <% }); %>
+                        <% }; %>
                     </select>
                 </div>
             </div>                         

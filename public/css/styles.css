@@ -6,23 +6,19 @@
     top: 0;
     left: 0;
     padding-top: 20px;
-    background-color: #f8f9fa;
-}
-
-/* Content styles */
-.content {
-    margin-left: 250px;
-    padding: 15px;
+    background-color: #000; /* Changed background color to black */
+    font-family: 'Arial', sans-serif;
 }
 
 /* Sidebar links styles */
 .sidebar ul.list-unstyled li a {
-    color: #000;
+    color: #fff; /* Changed font color to white */
     text-decoration: none;
     padding: 10px 15px;
     display: block;
     transition: background-color 0.3s, color 0.3s;
 }
+
 
 /* Hover effect */
 .sidebar ul.list-unstyled li a:hover {
@@ -32,13 +28,17 @@
 
 /* Active link styles */
 .sidebar ul.list-unstyled li a.active {
-    background-color: #000; /* Black background for selected item */
+    background-color: gray; /* Black background for selected item */
     color: #fff; /* White text for selected item */
 }
 
-.body {
-    background-color: lightgray;
+/* Content styles */
+.content {
+    margin-left: 250px;
+    padding: 15px;
 }
+
+
 .custom-pr-3 {
     padding-left: 2.96rem; /* Adjust the padding value as needed */
 }
@@ -63,6 +63,10 @@
 
 .invoice-button {
     width: 200px; /* Adjust the width to your preference */
+}
+
+.card {
+    background-color: white; /* Set the background color of the card to white */
 }
 
 .card-text {
