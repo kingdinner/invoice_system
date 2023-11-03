@@ -82,3 +82,19 @@
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
+.version {
+    position: absolute;
+    bottom: 10px; /* Adjust the distance from the bottom */
+    width: 100%;
+    color: white;
+}
+
+
+.hidden {
+    display: none;
+}
+
+#attachmentSelect {
+    width: 150px; /* You can adjust the width value as needed */
+}

@@ -8,40 +8,44 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <!-- Include Sidebar -->
     <%- include('../views/components/partials/sidebar.ejs') %>
+
+    <!-- Menu Details Form -->
     <form id="menuForm" action="/saveMenu" method="POST">
         <div class="content">
-            <div class="container">
-                <h1 class="mt-2">Menu Details</h1>
+            <div class="container py-4">
+                <h1 class="mt-4 mb-3">Menu Details</h1>
                 <table id="menutable" class="table table-bordered">
                     <thead class="thead-dark">
-                    <tr>
-                        <th>*</th>
-                        <th>項目</th>
-                        <th>金額</th>
-                        <th>消費税（%)</th>
-                    </tr>
+                        <tr >
+                            <th>*</th>
+                            <th>項目</th>
+                            <th>金額</th>
+                            <th>消費税（%）</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <% for (let i = 0; i < menu.length; i++) { %>
-                        <tr>
-                            <td contenteditable="false"><%= i %></td>
-                            <td contenteditable="true"><%= menu[i].name %></td>
-                            <td contenteditable="true"><%= menu[i].price %></td>
-                            <td contenteditable="true"><%= menu[i].tax %></td>
-                        </tr>
+                            <tr>
+                                <td contenteditable="false"><%= i %></td>
+                                <td contenteditable="true"><%= menu[i].name %></td>
+                                <td contenteditable="true"><%= menu[i].price %></td>
+                                <td contenteditable="true"><%= menu[i].tax %></td>
+                            </tr>
                         <% } %>
                         <tr>
                             <td contenteditable="true"><%= menu.length %></td>
                             <td contenteditable="true"></td>
                             <td contenteditable="true"></td>
                             <td contenteditable="true"></td>
-                            <td contenteditable="true"></td>
-                        </tr>        
+                        </tr>
                     </tbody>
                 </table>
-                <input type="submit" value="Save" />
+                <input type="submit" class="btn btn-primary" value="Save" />
             </div>
         </div>
     </form>
-<%- include('../views/components/partials/footer.ejs') %>
+
+    <!-- Footer -->
+    <%- include('../views/components/partials/footer.ejs') %>

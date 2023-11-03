@@ -25,6 +25,9 @@
                     <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
                 </li>
             </ul>
+        <div class="version">
+            <p>Version: 1.0.0</p> <!-- Update with your version number -->
+        </div>
         </div>
     </nav>    
     <div class="content">
@@ -42,25 +45,24 @@
                 <input type="text" class="form-control" id="titleInput" name="titleInput">
             </div>
             <div class="form-group mt-3">
-                <label for="messageType">Select Message Type:</label>
+                <!-- <label for="messageType">Select Message Type:</label>
                 <select class="form-control" id="messageType" name="messageType">
                     <% emailValues.forEach((message) => { %>
                         <option value="<%= message %>"><%= message %></option>
                     <% }); %>
-                </select>
+                </select> -->
+                <label for="myTextarea">Message:</label>
+                <textarea class="form-control" rows="4" id="myTextarea" name="myTextarea"></textarea> 
+                <div class="form-group mt-3 ">
+                    <select class="form-control" id="attachmentSelect" name="attachmentSelect">
+                        <% invoiceData.forEach((invoice, index) => { %>
+                            <option value="<%= invoice %>"><%= invoice %></option>
+                        <% }); %>
+                    </select>
+                </div>
             </div>
             <div class="d-flex justify-content-end align-items-center mt-4">
                 <button type="button" class="btn btn-sm btn-primary" id="sendEmailButton">Send Email</button>
-                <div class="form-group ml-2">
-                    <select class="form-control form-control-sm" id="attachmentSelect" name="attachmentSelect">
-                        <% if (invoiceData) { %>
-                            <% invoiceData.forEach((invoice, index) => { %>
-                                <% console.log(invoice) %>
-                                <option value="<%= invoice %>"><%= invoice %></option>
-                            <% }); %>
-                        <% }; %>
-                    </select>
-                </div>
             </div>                         
         </div>
     </div>

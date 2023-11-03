@@ -24,7 +24,7 @@ let inMemoryData = [{
     ]
 }];
 
-let inMemoryHistory = {"2023":{"January":{"client":{Joe:[]}},"October":{"client":{Joe:["invoice_20231018110214.pdf","invoice_20231018110432.pdf"]}}}}
+let inMemoryHistory = {"2023":{"January":{"client":{Joe:[]}},"November":{"client":{Joe:["invoice_20231018110214.pdf","invoice_20231018110432.pdf"]}}}}
 
 let inMemoryEmailTemplate = {
     template: [
@@ -64,13 +64,13 @@ let inMemoryDataMenus = [
         name: 'asdasd',
         details: 'Sample details 1',
         price: 10.99,
-        tax: 4
+        tax: '10%'
     },
     {
         name: 'example',
         details: 'Sample details 2',
         price: 15.99,
-        tax: 5
+        tax: '8%'
     },
 ];
 
@@ -262,15 +262,7 @@ const rendercontrolEmail = (req, res) => {
     // Retrieve client data for the current month, client, and year
     let invoiceData
     if (inMemoryHistory[currentYear][currentMonth]) {
-        invoiceData = inMemoryHistory[currentYear][currentMonth].client[clientName];
-    } else {
-        if (!inMemoryHistory[currentYear]) {
-            inMemoryHistory[currentYear] = {}; // Initialize the year object if it doesn't exist
-        }
-        
-        if (!inMemoryHistory[currentYear][currentMonth]) {
-            inMemoryHistory[currentYear][currentMonth] = {'client':{}}; // Initialize the month object if it doesn't exist
-        }
+       invoiceData = inMemoryHistory[currentYear][currentMonth].client[clientName];
     }
     res.render('control/sendEmail', { client: clientName, emailValues, invoiceData, getClientData });
 }

@@ -93,24 +93,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    $('#invoicetable').on('input', '.lastFreeColumn .name', function () {
-        // Get the last row with the class 'lastFreeColumn'
-        const lastRow = $('#invoicetable tr.lastFreeColumn');
-
-        // Clone the last row with its content and classes
-        const newRow = lastRow.clone();
-
-        // Remove the 'lastFreeColumn' class from the new row
-        newRow.removeClass('lastFreeColumn');
-
-        // Clear the input in the 'name' cell of the new row
-        newRow.find('.name').text('');
-
-        // Append the new row to the table
-        $('#invoicetable').append(newRow);
+$(document).ready(function () {
+    $('#invoicetable').on('input', '.displaySelect', function () {
+        const selectCell = $(this).closest('tr').find('.tax select');
+        if ($(this).text().trim() !== '') {
+            selectCell.removeClass('hidden');
+        } else {
+            selectCell.addClass('hidden');
+        }
     });
 });
+
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const priceCells = document.querySelectorAll('.price');
@@ -193,8 +188,9 @@ document.addEventListener('DOMContentLoaded', function() {
         taxCells.forEach((taxCell, index) => {
             const totalCell = totalCells[index];
             const total = parseFloat(totalCell.innerText.replace('¥', ''));
-            const tax = parseFloat(taxCell.innerText);
+            const tax = parseFloat(taxCell.value);
 
+            
             if (!isNaN(total) && !isNaN(tax) && tax > 0) {
                 totalTaxable += total;
             }
@@ -209,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateSaleTax() {
         let saleTax = 0;
         taxCells.forEach(taxCell => {
-            const tax = parseFloat(taxCell.innerText.replace('¥', ''));
+            const tax = parseFloat(taxCell.value);
             if (!isNaN(tax)) {
                 saleTax += tax;
             }
@@ -484,15 +480,13 @@ selectionBankDetail.addEventListener('change', function() {
     const selectedBank = selectionBankDetail.value;
 
     const matchingDetails = decodedJSON.filter(detail => detail.companyName === selectedBank);
-    console.log(matchingDetails[0])
-    console.log(matchingDetails[0].bankName)
-    if (selectedBank in matchingDetails) {
-        bankName.textContent = matchingDetails.bankName;
-        bankNameDetails.textContent = matchingDetails.bankNameDetails;
-        branchNo.textContent = matchingDetails.branchNo;
-        branchName.textContent = matchingDetails.branchName;
-        type.textContent = matchingDetails.type;
-        accountNo.textContent = matchingDetails.accountNo;
+    if (matchingDetails[0]) {
+        bankName.textContent = matchingDetails[0].bankName;
+        bankNameDetails.textContent = matchingDetails[0].bankName;
+        branchNo.textContent = `支店番号： ${matchingDetails[0].branchNo}`;
+        branchName.textContent = `支店名： ${matchingDetails[0].branchName}`;
+        type.textContent = `口座の種類： ${matchingDetails[0].type}`;
+        accountNo.textContent = `口座番号： ${matchingDetails[0].accountNo}`;
     } else {
         bankName.textContent = '';
         bankNameDetails.textContent = '';

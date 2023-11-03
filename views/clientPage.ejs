@@ -11,34 +11,41 @@
 <body class="light-gray-bg">
     <%- include('../views/components/partials/sidebar.ejs') %>
     <div class="content">
-        <div class="container">
-            <h1 class="mt-2">Client Details</h1>
-            <button class="btn btn-primary client-button" data-toggle="modal" data-target="#newClientModal" data-client="#">
+        <div class="container py-4">
+            <h1 class="mt-4 mb-3">Client Details</h1>
+            <button class="btn btn-primary mb-3 client-button" data-toggle="modal" data-target="#newClientModal" data-client="#">
                 <i class="fas fa-plus"></i> Add new client
-              </button>
-            <ul>
-                <% clients.forEach((client, index) => { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
+            </button>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
+                    <div class="w-100 d-flex align-items-center py-4">
+                        <div >
+                            <h6 class="mb-0">Name</h6>
+                        </div>
                         <div class="d-flex">
-                            <div class="col-11"> <!-- Adjust the col-* class as needed -->
-                                <%= index + 1 %>. <%= client %>
-                            </div>
-                            <div class="col-1"> <!-- Adjust the col-* class as needed -->
-                                <button class="btn btn-primary btn-sm details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>"><i class="fas fa-pen-to-square"></i></button>
+                            <h6 class="mb-0 me-1">Actions</h6>
+                        </div>
+                    </div>
+                </li>
+                <% clients.forEach((client, index) => { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
+                        <div class="w-100 d-flex justify-content-between align-items-center">
+                            <span><%= index + 1 %>. <%= client %></span>
+                            <div class="d-flex">
+                                <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <a href="control/history/<%= client %>" class="btn btn-primary btn-sm me-2">History</a>
+                                <a href="control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a>
+                                <a href="control/sendEmail/<%= client %>" class="btn btn-primary btn-sm">Send Invoice</a>
                             </div>
                         </div>
-                        <container>
-                            <!-- <button class="btn btn-primary details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">Details</button> -->
-                            <a href="control/history/<%= client %>" class="btn btn-primary">History</a>
-                            <a href="control/createInvoice/<%= client %>" class="btn btn-primary">Create invoice & Notes</a>
-                            <a href="control/sendEmail/<%= client %>" class="btn btn-primary">Send Invoice</a>
-                            <!-- <button class="btn btn-primary email-button" data-toggle="modal" data-target="#emaildetaillabel" data-client="<%= client %>">Edit Template</button> -->
-                        </container>
                     </li>
+                    <!-- Modals -->
                     <%- include('../views/components/modal/detailsModal/modal.ejs', {client: client}) %>
                     <%- include('../views/components/modal/newClientModal/modal.ejs') %>
                 <% }); %>
             </ul>
         </div>
     </div>
-<%- include('../views/components/partials/footer.ejs') %>
+    <%- include('../views/components/partials/footer.ejs') %>

@@ -26,6 +26,9 @@
                 <li>
                     <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
                 </li>
+                <div class="version">
+                    <p>Version: 1.0.0</p> <!-- Update with your version number -->
+                </div>
             </ul>
         </div>
     </nav>    
@@ -106,50 +109,36 @@
                             <td contenteditable="true" class="unit border-1"></td>
                             <td contenteditable="true" class="quantity border-1"></td>
                             <td contenteditable="true" class="price border-1"><%= item.price %></td>
-                            <td contenteditable="true" class="tax border-1"><%= item.tax %></td>
+                            <td class="border-1">
+                                <div class="form-group">
+                                    <select class="form-control tax">
+                                        <option value="10%" <%= item.tax === '10%' ? 'selected' : '' %>>10%</option>
+                                        <option value="8%" <%= item.tax === '8%' ? 'selected' : '' %>>8%</option>
+                                        <option value="0%" <%= item.tax === '0%' ? 'selected' : '' %>>0%</option>
+                                    </select>
+                                </div>
+                            </td>
                             <td contenteditable="false" class="total border-1"></td>
                         </tr>
                     <% }); %>
-                    <tr>
-                        <td contenteditable="true" class="name border-1"></td>
-                        <td contenteditable="true" class="unit border-1"></td>
-                        <td contenteditable="true" class="quantity border-1"></td>
-                        <td contenteditable="true" class="price border-1"></td>
-                        <td contenteditable="true" class="tax border-1"></td>
-                        <td contenteditable="false" class="total border-1"></td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" class="name border-1"></td>
-                        <td contenteditable="true" class="unit border-1"></td>
-                        <td contenteditable="true" class="quantity border-1"></td>
-                        <td contenteditable="true" class="price border-1"></td>
-                        <td contenteditable="true" class="tax border-1"></td>
-                        <td contenteditable="false" class="total border-1"></td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" class="name border-1"></td>
-                        <td contenteditable="true" class="unit border-1"></td>
-                        <td contenteditable="true" class="quantity border-1"></td>
-                        <td contenteditable="true" class="price border-1"></td>
-                        <td contenteditable="true" class="tax border-1"></td>
-                        <td contenteditable="false" class="total border-1"></td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" class="name border-1"></td>
-                        <td contenteditable="true" class="unit border-1"></td>
-                        <td contenteditable="true" class="quantity border-1"></td>
-                        <td contenteditable="true" class="price border-1"></td>
-                        <td contenteditable="true" class="tax border-1"></td>
-                        <td contenteditable="false" class="total border-1"></td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" class="name lastFreeColumn border-1"></td>
-                        <td contenteditable="true" class="unit border-1"></td>
-                        <td contenteditable="true" class="quantity border-1"></td>
-                        <td contenteditable="true" class="price border-1"></td>
-                        <td contenteditable="true" class="tax border-1"></td>
-                        <td contenteditable="false" class="total border-1"></td>
-                    </tr>
+                    <% for (let i = 0; i < 10; i++) { %>
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    <% } %>
                     <tr>
                         <td contenteditable="true" colspan="4" class="border-1"></td>
                         <td contenteditable="true" class="border-1">小計</td>
@@ -177,18 +166,18 @@
                         <td contenteditable="true" class="saleTax border-1"></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4"class="border-0" id="branchNo">支店番号：252</td>
+                        <td contenteditable="true" colspan="4"class="border-0" id="branchNo">支店番号：</td>
                         <td contenteditable="true" class="border-1">合計金額</td>
                         <td contenteditable="true" class="totalAmount border-1"></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="branchName">支店名：第二営業支店</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchName">支店名：</td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="type">口座の種類：普通</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="type">口座の種類：</td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo">口座番号：7522113</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo">口座番号：</td>
                     </tr>
                 </tbody >
               </table>
