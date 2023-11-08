@@ -1,0 +1,24 @@
+<nav class="sidebar">
+    <div class="p-4">
+        <ul class="list-unstyled">
+            <li>
+                <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+            </li>    
+            <li>
+                <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+            </li>
+            <li>
+                <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+            </li>
+            <li>
+                <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+            </li>
+            <li>
+                <a href="/" class="nav-link <%= currentRoute === '/' ? 'active' : '' %>" data-target="track-shipment">Back</a>
+            </li>
+        </ul>
+        <div class="version">
+            <p>Version: 1.0.0</p> <!-- Update with your version number -->
+        </div>
+    </div>
+</nav>

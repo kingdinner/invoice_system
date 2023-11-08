@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="clientDetailsForm" method="post" action="/submit-form">
+                <form id="clientDetailsForm" method="post" action="/invoice/submit-form">
                     <input type="hidden" id="hiddenClientDetailsContent" name="clientDetailsContent" value="<%= client %>">
                     <div class="form-group">
                         <label for="companyName">Client Name:</label>
@@ -33,6 +33,10 @@
                     <div class="form-group">
                         <label for="notes">Notes:</label>
                         <textarea class="form-control" id="notes" name="notes" rows="4"><%= getClientData(client, 'notes') %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Upload Image:</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" />
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>

@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateTotalForRow(index);
         });
     });
+    
     taxCells.forEach((taxCell, index) => {
         taxCell.addEventListener('input', function() {
             calculateTotalTaxable();
@@ -144,18 +145,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    quantityCells.forEach((quantityCell, index) => {
+        quantityCell.addEventListener('input', function() {
+            updateTotalForRow(index);
+        });
+    });
+
+
     // Function to update the total for a specific row
     function updateTotalForRow(index) {
         const unitCell = unitCells[index];
         const priceCell = priceCells[index];
         const totalCell = totalCells[index];
+        const quantityCell = quantityCells[index];
+        
+        const unit = !isNaN(parseFloat(unitCell.innerText)) ? parseFloat(unitCell.innerText) : 0;
+        const price = !isNaN(parseFloat(priceCell.innerText)) ? parseFloat(priceCell.innerText) : 0;
+        const quantity = !isNaN(parseFloat(quantityCell.innerText)) ? parseFloat(quantityCell.innerText) : 0;
 
-        const unit = parseFloat(unitCell.innerText);
-        const price = parseFloat(priceCell.innerText);
-
-        if (!isNaN(unit) && !isNaN(price)) {
-            const total = unit * price;
-            totalCell.innerText = '¥' + total.toFixed(2);
+        if (!isNaN(unit) && !isNaN(price) && !isNaN(quantity)) {
+            const total = unit * price * quantity;
+            if (total != 0) {
+                totalCell.innerText = '¥' + total.toFixed(2);
+            }
         } else {
             totalCell.innerText = ''; // Clear the total cell if inputs are invalid
         }
@@ -267,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (menuForm) {
         menuForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent the default form submission
-
+        
         const table = document.getElementById("menutable");
         const rows = table.getElementsByTagName("tr");
         const tableData = [];
@@ -275,21 +287,20 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 1; i < rows.length; i++) { // Start at 1 to skip the header row
             const cells = rows[i].getElementsByTagName("td");
             const name = cells[1].textContent.trim();
-            
+
             // Check if the 'name' is empty, and only add non-empty rows to tableData
             if (name !== '') {
                 const rowData = {
                     name: name,
-                    details: cells[2].textContent.trim(),
-                    price: cells[3].textContent.trim(),
-                    tax: cells[4].textContent.trim(),
+                    price: cells[2].textContent.trim(),
+                    tax: cells[3].textContent.trim(),
                 };
                 tableData.push(rowData);
             }
         }
         
         // Send the data to the server using a fetch request
-        fetch("/saveMenu", {
+        fetch("/invoice/saveMenu", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -373,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const saveForm = document.getElementById('addForm');
+    const saveForm = document.getElementById('saveForm');
     if (saveForm) {
         saveForm.addEventListener('click', function () {
             event.preventDefault();
@@ -407,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             formData.taxRegisteredNumber = document.getElementById("taxRegisteredNumber").value;
             // Send the form data to the server using a POST request
-            fetch('/update/companyInformation', {
+            fetch('/invoice/update/companyInformation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -444,19 +455,29 @@ $(document).ready(function() {
         $("#editButton" + index).show();
         $("#saveButton" + index).hide();
 
-        $.ajax({
-            type: "POST",
-            url: "/updateEmailTemplate",
-            data: {
+        fetch("/invoice/updateEmailTemplate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
                 index: index,
                 editedText: editedText
-            },
-            success: function(response) {
-                // Handle the response if needed
-            },
-            error: function(error) {
-                // Handle errors if the request fails
-            }
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Data sent successfully
+                    console.log("Data sent successfully");
+                    // You can handle the response if needed
+                } else {
+                    // Handle errors
+                    console.error("Error sending data");
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                console.error("Network error", error);
         });
     });
 });
@@ -498,3 +519,30 @@ selectionBankDetail.addEventListener('change', function() {
   
 
 });
+
+$('.nav-link').click(function() {
+    $('.nav-link').removeClass('activeCollpasse');
+    $(this).addClass('activeCollpasse');
+
+    // Collapse or expand the sidebar sections based on the link prefix
+    if ($(this).attr('href').startsWith('/invoice')) {
+        $('#invoiceSubMenu').collapse('show');
+        $('#shipmentSubMenu').collapse('hide');
+    } else if ($(this).attr('href').startsWith('/shipments')) {
+        $('#shipmentSubMenu').collapse('show');
+        $('#invoiceSubMenu').collapse('hide');
+    }
+});
+
+// Check the current route to auto-expand the relevant section
+var currentRoute = window.location.pathname;
+
+if (currentRoute.startsWith('/invoice')) {
+    $('#invoiceSubMenu').collapse('show');
+    $('#shipmentSubMenu').collapse('hide');
+    $('.nav-link[href^="/invoice"]').addClass('activeCollpasse');
+} else if (currentRoute.startsWith('/shipments')) {
+    $('#shipmentSubMenu').collapse('show');
+    $('#invoiceSubMenu').collapse('hide');
+    $('.nav-link[href^="/shipments"]').addClass('activeCollpasse');
+}

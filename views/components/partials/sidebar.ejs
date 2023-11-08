@@ -1,17 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Your additional or custom styles */
+    </style>
+</head>
+<body>
+
 <nav class="sidebar">
     <div class="p-4">
         <ul class="list-unstyled">
+            <!-- Invoice System -->
             <li>
-                <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
-            </li>    
-            <li>
-                <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+                <a href="#invoiceSubMenu" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="invoiceSubMenu" id="invoiceLink" class="nav-link <%= currentRoute.startsWith('/invoice/') ? 'active' : '' %>" >Invoice System</a>
+                <ul class="collapse" id="invoiceSubMenu">
+                    <li>
+                        <a href="/invoice/client" class="nav-link <%= currentRoute === '/invoice/client' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+                    </li>    
+                    <li>
+                        <a href="/invoice/menu" class="nav-link <%= currentRoute === '/invoice/menu' ? 'active' : '' %>" data-target="menu" id="menuLink">Menu</a>
+                    </li>
+                    <li>
+                        <a href="/invoice/email" class="nav-link <%= currentRoute === '/invoice/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+                    </li>
+                    <li>
+                        <a href="/invoice/company-information" class="nav-link <%= currentRoute === '/invoice/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+                    </li>
+                </ul>
             </li>
+
             <li>
-                <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
-            </li>
-            <li>
-                <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
+                <a href="#shipmentSubMenu" class="nav-link" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="shipmentSubMenu" class="nav-link <%= currentRoute.startsWith('/invoice/') ? 'active' : '' %>">Shipment System</a>
+                <ul class="collapse" id="shipmentSubMenu">
+                    <li>
+                        <a href="/shipments/create" class="nav-link <%= currentRoute === '/shipments/create' ? 'active' : '' %>" data-target="create-shipment">Create Shipment</a>
+                    </li>
+                    <li>
+                        <a href="/shipments/track" class="nav-link <%= currentRoute === '/shipments/track' ? 'active' : '' %>" data-target="track-shipment">Track Shipment</a>
+                    </li>
+                </ul>
             </li>
         </ul>
         <div class="version">
@@ -19,3 +47,42 @@
         </div>
     </div>
 </nav>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Add an 'active' class to the clicked link to maintain the selected state
+    $('.nav-link').click(function() {
+        $('.nav-link').removeClass('activeCollpasse');
+        $(this).addClass('activeCollpasse');
+
+        // Collapse or expand the sidebar sections based on the link prefix
+        if ($(this).attr('href').startsWith('/invoice')) {
+            $('#invoiceSubMenu').collapse('show');
+            $('#shipmentSubMenu').collapse('hide');
+            $('#shipmentSubMenu').removeClass('activeCollpasse');
+        } else if ($(this).attr('href').startsWith('/shipments')) {
+            $('#shipmentSubMenu').collapse('show');
+            $('#invoiceSubMenu').collapse('hide');
+            $('#invoiceSubMenu').removeClass('activeCollpasse');
+        }
+    });
+
+    // Check the current route to auto-expand the relevant section
+    var currentRoute = window.location.pathname;
+
+    if (currentRoute.startsWith('/invoice')) {
+        $('#invoiceSubMenu').collapse('show');
+        $('#shipmentSubMenu').collapse('hide');
+        $('#shipmentSubMenu').removeClass('activeCollpasse');
+    } else if (currentRoute.startsWith('/shipments')) {
+        $('#shipmentSubMenu').collapse('show');
+        $('#invoiceSubMenu').collapse('hide');
+        $('#invoiceSubMenu').removeClass('activeCollpasse');
+    }
+</script>
+
+</body>
+</html>

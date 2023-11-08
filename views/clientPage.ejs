@@ -18,11 +18,11 @@
             </button>
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
-                    <div class="w-100 d-flex align-items-center py-4">
-                        <div >
+                    <div class="w-100 d-flex align-items-center py-2">
+                        <div class="col-md-8">
                             <h6 class="mb-0">Name</h6>
                         </div>
-                        <div class="d-flex">
+                        <div class="col-md-4">
                             <h6 class="mb-0 me-1">Actions</h6>
                         </div>
                     </div>
@@ -35,9 +35,9 @@
                                 <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">
                                     <i class="fas fa-pen-to-square"></i>
                                 </button>
-                                <a href="control/history/<%= client %>" class="btn btn-primary btn-sm me-2">History</a>
-                                <a href="control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a>
-                                <a href="control/sendEmail/<%= client %>" class="btn btn-primary btn-sm">Send Invoice</a>
+                                <a href="/invoice/control/history/<%= client %>" class="btn btn-primary btn-sm me-2">History</a>
+                                <a href="/invoice/control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a>
+                                <a href="/invoice/control/sendEmail/<%= client %>" class="btn btn-primary btn-sm">Send Invoice</a>
                             </div>
                         </div>
                     </li>

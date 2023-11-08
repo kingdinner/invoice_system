@@ -16,20 +16,20 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="companyName">Company Name:</label>
-                        <input type="text" class="form-control form-control-sm" id="companyName" value="<%= inMemoryCompanyInformation.companyName %>">
+                        <input type="text" class="form-control form-control-sm" id="companyName" value="<%= companyInformations.companyName %>">
                     </div>
                     <div class="form-group">
                         <label for="address">Address:</label>
-                        <input type="text" class="form-control form-control-sm" id="address" value="<%= inMemoryCompanyInformation.address %>">
+                        <input type="text" class="form-control form-control-sm" id="address" value="<%= companyInformations.address %>">
                     </div>
                     <div class="form-group">
                         <label for="emailAddress">Email Address:</label>
-                        <input type="text" class="form-control form-control-sm" id="emailAddress" value="<%= inMemoryCompanyInformation.emailAddress %>">
+                        <input type="text" class="form-control form-control-sm" id="emailAddress" value="<%= companyInformations.emailAddress %>">
                     </div>
                     <div class="card">
                         <div class="card-header">Banking Details</div>
                         <div class="card-body py-2 px-5" id="bankingDetailsContainer">
-                            <% inMemoryCompanyInformation.bankingDetails.forEach((bankingDetail, index) => { %>
+                            <% companyInformations.bankingDetails.forEach((bankingDetail, index) => { %>
                             <form class="banking-form custom-box mt-3">
                                     <div class="form-group">
                                         <label for="bankName<%= index %>">お振込先:</label>
@@ -66,7 +66,12 @@
                     </div>                    
                     <div class="form-group">
                         <label for="taxRegisteredNumber">Tax Registered No. (登録番号):</label>
-                        <input type="text" class="form-control form-control-sm" id="taxRegisteredNumber" placeholder="Your Tax Registered Number" value="<%= inMemoryCompanyInformation.taxRegistrationNumbers %>">
+                        <input type="text" class="form-control form-control-sm" id="taxRegisteredNumber" placeholder="Your Tax Registered Number" value="<%= companyInformations.taxRegistrationNumbers %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageUpload">Upload Image:</label>
+                        <input type="file" id="imageUpload" accept="image/*">
                     </div>
                     <div class="justify-content-end py-2">
                         <button id="saveForm" class="btn btn-primary btn-sm">Update</button>
