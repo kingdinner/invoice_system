@@ -383,47 +383,41 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-
     const saveForm = document.getElementById('saveForm');
+
     if (saveForm) {
         saveForm.addEventListener('click', function () {
             event.preventDefault();
+            const formData = new FormData(); // Create a FormData object
+
             // Collect form data
-            const formData = {
-                companyName: document.getElementById("companyName").value,
-                address: document.getElementById("address").value,
-                emailAddress: document.getElementById("emailAddress").value,
-                bankingDetails: []
-            };
+            formData.append('companyName', document.getElementById('companyName').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('emailAddress', document.getElementById('emailAddress').value);
+            formData.append('taxRegisteredNumber', document.getElementById('taxRegisteredNumber').value);
 
-            // Determine the number of banking details forms
-            const bankingForms = document.querySelectorAll(".banking-form");
-
-            const bankingDetails = [];
-
+            // Banking details
+            const bankingForms = document.querySelectorAll('.banking-form');
+            let index = 0;
             bankingForms.forEach(function (form) {
-                const bankingDetail = {
-                    bankName: form.querySelector('input[id^="bankName"]').value || '',
-                    companyName: form.querySelector('input[id^="companyName"]').value || '',
-                    branchNo: form.querySelector('input[id^="branchNo"]').value || '',
-                    branchName: form.querySelector('input[id^="branchName"]').value || '',
-                    type: form.querySelector('input[id^="type"]').value || '',
-                    accountNo: form.querySelector('input[id^="accountNo"]').value || ''
-                };
-            
-                bankingDetails.push(bankingDetail);
+                formData.append(`bankingDetails[${index}][bankName]`, form.querySelector('input[id^="bankName"]').value || '');
+                formData.append(`bankingDetails[${index}][companyName]`, form.querySelector('input[id^="companyName"]').value || '');
+                formData.append(`bankingDetails[${index}][branchNo]`, form.querySelector('input[id^="branchNo"]').value || '');
+                formData.append(`bankingDetails[${index}][branchName]`, form.querySelector('input[id^="branchName"]').value || '');
+                formData.append(`bankingDetails[${index}][type]`, form.querySelector('input[id^="type"]').value || '');
+                formData.append(`bankingDetails[${index}][accountNo]`, form.querySelector('input[id^="accountNo"]').value || '');
+                index++;
             });
-            
-            formData.bankingDetails = bankingDetails;
 
-            formData.taxRegisteredNumber = document.getElementById("taxRegisteredNumber").value;
-            // Send the form data to the server using a POST request
+            // Handle image file
+            const imageFile = document.getElementById('imageUpload').files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
             fetch('/invoice/update/companyInformation', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                body: formData // Pass the FormData object directly as the body of the request
             })
             .then(response => {
                 // Handle the response (e.g., display success or error message)
@@ -433,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Handle errors
                 console.error(error);
             });
-        })
+        });
     }
 });
 

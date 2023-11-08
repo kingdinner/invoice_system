@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="clientDetailsForm" method="post" action="/invoice/submit-form">
+                <form id="clientDetailsForm" method="post" action="/invoice/submit-form" enctype="multipart/form-data">
                     <input type="hidden" id="hiddenClientDetailsContent" name="clientDetailsContent" value="<%= client %>">
                     <div class="form-group">
                         <label for="companyName">Client Name:</label>

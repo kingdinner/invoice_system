@@ -15,23 +15,23 @@
         <div class="p-4">
             <ul class="list-unstyled">
                 <li>
-                    <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
+                    <a href="/invoice/client" class="nav-link">Client Page</a>
+                </li>
+                <li>
+                    <a href="/invoice/control/history/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/history/') ? 'active' : '' %>" data-target="client">History</a>
                 </li>    
                 <li>
-                    <a href="/menu" class="nav-link <%= currentRoute === '/menu' ? 'active' : '' %>" data-target="menu">Menu</a>
+                    <a href="/invoice/control/createInvoice/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/createInvoice/') ? 'active' : '' %>" data-target="menu">Create Invoice & Notes</a>
                 </li>
                 <li>
-                    <a href="/email" class="nav-link <%= currentRoute === '/email' ? 'active' : '' %>" data-target="menu">Email Template</a>
+                    <a href="/invoice/control/sendEmail/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/sendEmail/') ? 'active' : '' %>" data-target="menu">Send Invoice</a>
                 </li>
-                <li>
-                    <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
-                </li>
-                <div class="version">
-                    <p>Version: 1.0.0</p> <!-- Update with your version number -->
-                </div>
             </ul>
+            <div class="version">
+                <p>Version: 1.0.0</p> <!-- Update with your version number -->
+            </div>
         </div>
-    </nav>    
+    </nav>
     <div class="content">
         <div class="container text-center">
             <h1 class="mt-2">御請求書</h1>
@@ -87,7 +87,7 @@
                 
             </div>
             <div class="col-md-2 custom-pt-12">
-                <img src="../../public/images/thumb.png" alt="Description of the image">
+                <img src="/images/companyImage/company_image.jpg" alt="Company Image">
             </div>
         </div>
         <div>

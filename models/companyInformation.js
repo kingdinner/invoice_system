@@ -30,7 +30,8 @@ const companyModel = {
     },
     update: {
         companyInfo: (newData) => {
-            Object.assign(inMemoryCompanyInformation, newData);
+            console.log(newData)
+            inMemoryCompanyInformation = newData
             return "Company information updated successfully";
         },
     },

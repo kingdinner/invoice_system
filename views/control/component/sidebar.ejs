@@ -2,6 +2,9 @@
     <div class="p-4">
         <ul class="list-unstyled">
             <li>
+                <a href="javascript:history.go(-1);" class="nav-link">Back</a>
+            </li>
+            <li>
                 <a href="/" class="nav-link <%= currentRoute === '/' || currentRoute.startsWith('/control/') ? 'active' : '' %>" data-target="client">Client</a>
             </li>    
             <li>
@@ -13,12 +16,9 @@
             <li>
                 <a href="/company-information" class="nav-link <%= currentRoute === '/company-information' ? 'active' : '' %>" data-target="menu">Company Information</a>
             </li>
-            <li>
-                <a href="/" class="nav-link <%= currentRoute === '/' ? 'active' : '' %>" data-target="track-shipment">Back</a>
-            </li>
         </ul>
         <div class="version">
             <p>Version: 1.0.0</p> <!-- Update with your version number -->
         </div>
     </div>
-</nav>
+</nav>    

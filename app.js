@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser"); 
 const path = require('path');
-const routeRouter = require('./routes/route');
-
-app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -13,6 +10,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+app.use(express.static('public'));
+
+const routeRouter = require('./routes/route');
 app.use('/', routeRouter);
 
 // Start the server

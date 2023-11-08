@@ -48,18 +48,22 @@ const newClient = (req,res) => {
 
 const saveDetails = (req, res) => {
     const clientName = req.body.clientDetailsContent;
-
-    // Find the client by name using the model's function
     const clientToUpdate = clientModel.find.clientByName(clientName);
-
+    
     if (clientToUpdate) {
-        // Update the client data based on the request body
+        // If the image was uploaded successfully, update the client data
         clientToUpdate.client = req.body.clientname;
         clientToUpdate.companyName = req.body.companyName;
         clientToUpdate.personInCharge = req.body.personInCharge;
         clientToUpdate.address = req.body.address;
         clientToUpdate.emailAddress = req.body.emailAddress;
         clientToUpdate.notes = req.body.notes;
+
+        // Check if an image was uploaded
+        if (req.file) {
+            // Assuming the image is saved in a 'public/uploads' folder
+            clientToUpdate.imagePath = `/images/client/${req.file.filename}`;
+        }
 
         // Update the client data in the model
         clientModel.update.client(clientName, clientToUpdate);
@@ -74,6 +78,7 @@ const saveDetails = (req, res) => {
         res.send('Client not found');
     }
 };
+
 
 const emailSaveDetails = (req, res) => {
     const clientName = req.body.clientDetailsContent;
