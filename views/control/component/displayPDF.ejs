@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <button onclick="openPDF()">Open PDF</button>
+
+  <script>
+    function openPDF() {
+      const pdfURL = 'path/to/your/pdf/file.pdf'; // Replace with the URL or path to your PDF file
+
+      // Open the PDF in a new tab using window.open and display it within an iframe
+      const newTab = window.open();
+      newTab.document.write(`
+        <html>
+        <head>
+          <title>PDF Viewer</title>
+        </head>
+        <body style="margin: 0;">
+          <iframe src="${pdfURL}" width="100%" height="100%"></iframe>
+        </body>
+        </html>
+      `);
+    }
+  </script>
+</body>
+</html>

@@ -14,6 +14,7 @@ app.use(express.static('public'));
 
 const routeRouter = require('./routes/route');
 app.use('/', routeRouter);
+app.use('/public', express.static('public'));
 
 // Start the server
 const PORT = process.env.PORT || 3000;

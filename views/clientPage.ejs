@@ -29,16 +29,14 @@
                 </li>
                 <% clients.forEach((client, index) => { %>
                     <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
-                        <div class="w-100 d-flex justify-content-between align-items-center">
+                        <div class="w-100 align-items-center col-md-8">
                             <span><%= index + 1 %>. <%= client %></span>
-                            <div class="d-flex">
-                                <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">
-                                    <i class="fas fa-pen-to-square"></i>
-                                </button>
-                                <a href="/invoice/control/history/<%= client %>" class="btn btn-primary btn-sm me-2">History</a>
-                                <a href="/invoice/control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a>
-                                <a href="/invoice/control/sendEmail/<%= client %>" class="btn btn-primary btn-sm">Send Invoice</a>
-                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">
+                                <i class="fas fa-pen-to-square"></i>
+                            </button>
+                            <a href="/invoice/control/history/<%= client %>" class="btn btn-primary btn-sm me-2">Action</a>
                         </div>
                     </li>
                     <!-- Modals -->

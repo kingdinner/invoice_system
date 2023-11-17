@@ -13,16 +13,7 @@
         <div class="p-4">
             <ul class="list-unstyled">
                 <li>
-                    <a href="/invoice/client" class="nav-link">Client Page</a>
-                </li>
-                <li>
-                    <a href="/invoice/control/history/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/history/') ? 'active' : '' %>" data-target="client">History</a>
-                </li>    
-                <li>
-                    <a href="/invoice/control/createInvoice/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/createInvoice/') ? 'active' : '' %>" data-target="menu">Create Invoice & Notes</a>
-                </li>
-                <li>
-                    <a href="/invoice/control/sendEmail/<%= client %>" class="nav-link <%= currentRoute.startsWith('/invoice/control/sendEmail/') ? 'active' : '' %>" data-target="menu">Send Invoice</a>
+                    <a href="javascript:history.go(-1);" class="nav-link">Back</a>
                 </li>
             </ul>
             <div class="version">

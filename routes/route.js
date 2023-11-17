@@ -5,6 +5,8 @@ const menuController = require('../controllers/invoiceControllers/menuController
 const companyInfoController = require('../controllers/invoiceControllers/companyInformationController');
 const emailController = require('../controllers/invoiceControllers/emailController');
 
+const shipmentController = require('../controllers/shipmentControllers/shipmentControllers');
+
 // Middleware to set the current route variable
 router.use((req, res, next) => {
     res.locals.currentRoute = req.path;
@@ -59,5 +61,8 @@ router.get('/invoice/control/history/:clientName', clientController.rendercontro
 
 router.get('/invoice/company-information', companyInfoController.renderCompanyInformation);
 router.post('/invoice/update/companyInformation', upload.single('image'), companyInfoController.updatecompanyInformation);
+
+router.get('/shipments/create', shipmentController.shipmentPage);
+router.get('/shipments/track', shipmentController.trackingPage);
 
 module.exports = router;

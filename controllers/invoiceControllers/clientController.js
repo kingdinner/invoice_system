@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const path = require('path');
 
+
 const clientModel = require('../../models/clients');
 const companyModel = require('../../models/companyInformation');
 const emailTemplateModel = require('../../models/email');
@@ -64,7 +65,7 @@ const saveDetails = (req, res) => {
             // Assuming the image is saved in a 'public/uploads' folder
             clientToUpdate.imagePath = `/images/client/${req.file.filename}`;
         }
-
+ 
         // Update the client data in the model
         clientModel.update.client(clientName, clientToUpdate);
 
@@ -252,6 +253,7 @@ const rendercontrolHistory = (req, res) => {
 const changeBasedYear = (selectedYear) => {
     clientData[selectedYear] = inMemoryHistory[selectedYear] || {};
 };
+
 
 module.exports = {
     renderClientDetails,

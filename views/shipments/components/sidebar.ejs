@@ -1,0 +1,18 @@
+<nav class="sidebar">
+    <div class="p-4">
+        <ul class="list-unstyled">
+            <li>
+                <a href="/" class="nav-link">Back</a>
+            </li>
+            <li>
+                <a href="/shipments/create" class="nav-link <%= currentRoute.startsWith('/shipments/create') ? 'active' : '' %>" data-target="create">Create Shipment</a>
+            </li>
+            <li>
+                <a href="/shipments/track" class="nav-link <%= currentRoute.startsWith('/shipments/track') ? 'active' : '' %>" data-target="track">Track Shipment</a>
+            </li>
+        </ul>
+        <div class="version">
+            <p>Version: 1.0.0</p> 
+        </div>
+    </div>
+</nav>    

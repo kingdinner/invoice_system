@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('../shipments/components/sidebar.ejs') %>
+    <div class="content">
+        <div class="container text-center">
+            <h1 class="mt-2">Create Shipment</h1>
+        </div>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-8">
+                <input class="form-control" type="file" id="fileInput" accept=".txt">
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" onclick="readFile()">Read File</button>  
+            </div>
+          </div>
+        </div>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="container mt-4">
+                  <table class="table table-bordered" id="descriptionTable">
+                    <thead>
+                      <tr>
+                        <th>納品番号</th>
+                        <th>FBA17GZYW012</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>納品名</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                        <td></td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>納品プラン番号</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                        <td></td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>納品先</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                        <td></td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>SKU 合計</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                        <td></td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <th>商品合計数</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                        <td></td>
+                        <% } %>
+                      </tr>
+                      <tr>
+                        <% for (let i = 0; i < 12; i++) { %>
+                          <td></td>
+                          <% } %>
+                      </tr>
+                      <tr>
+                        <th>SKU</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                          <td></td>
+                          <% } %>
+                      </tr>
+                      <tr>
+                        <th>kakinotane_170g×4</th>
+                        <% for (let i = 0; i < 11; i++) { %>
+                          <td></td>
+                          <% } %>
+                      </tr>
+                      <tr>
+                        <th>kakinotane_85g×4</th>
+
+                        <% for (let i = 0; i < 11; i++) { %>
+                          <td></td>
+                          <% } %>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="container" id="computationTable" style="display: none;">
+                  <div class="row">
+                      <div class="container mt-4">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>Weight （kg）重さ(kg）</th>
+                                      <th></th>
+                                      <th>L (cm)</th>
+                                      <th>W (cm)</th>
+                                      <th>D (cm)</th>
+                                      <th></th>
+                                      <th></th>
+                                      <!-- ... Add new headers ... -->
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <!-- ... Add new table content ... -->
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+                <div class="container mt-12 d-flex justify-content-center">
+                  <button id="nextButton" class="btn btn-primary btn-lg" onclick="showNextTable()">Next</button>
+              </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+  function showNextTable() {
+      // Hide the current table
+      document.getElementById('descriptionTable').style.display = 'none';
+      
+      // Show the new table
+      document.getElementById('computationTable').style.display = 'block';
+  }
+  function readFile() {
+            const fileInput = document.getElementById('fileInput');
+            
+            // Check if a file is selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Read the contents of the file
+                    const fileContents = e.target.result;
+                    console.log('File Contents:', fileContents);
+                    // Perform further actions with the file contents
+                };
+
+                // Read the file as text
+                reader.readAsText(file);
+            } else {
+                alert('Please select a file.');
+            }
+        }
+</script>
+</body>
+</html>
