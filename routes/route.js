@@ -53,6 +53,8 @@ router.post('/invoice/newClientSubmitForm', clientController.newClient);
 router.post('/invoice/saveMenu', menuController.insertMenus);
 router.post('/invoice/savePDF', clientController.generatePDF);
 router.post('/invoice/sendEmail', clientController.sendEmail);
+router.get('/invoice/invoiceEditPDF/:fileName', clientController.invoiceEditPDF);
+router.post('/invoice/updatePDF/:fileName', clientController.updatePDF);
 
 router.get('/invoice/control/sendEmail/:clientName', clientController.rendercontrolEmail);
 router.get('/invoice/control/createInvoice/:clientName', clientController.renderInvoice);

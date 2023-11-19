@@ -253,7 +253,43 @@ document.addEventListener('DOMContentLoaded', function() {
             const clientName = labelElement.textContent;
             
             // Send the HTML content to the server
-            fetch('/savePDF', {
+            fetch('/invoice/savePDF', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: htmlContent, clientName }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server, if needed
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const updateAndSubmitButton = document.getElementById('updateButton');
+    const invoiceContent = document.querySelector('.content'); // Get the HTML content you want to send
+
+    if (updateAndSubmitButton) {
+        updateAndSubmitButton.addEventListener('click', function() {
+            // Convert the HTML content to a string
+            const htmlContent = invoiceContent.outerHTML;
+            const labelElement = document.querySelector('label[for="clientDetailsContent"]');
+            const clientName = labelElement.textContent;
+            const currentURL = window.location.href;
+            
+            const pathname = new URL(currentURL).pathname;
+
+            const parts = pathname.split('/');
+            const filenameWithExtension = parts[parts.length - 1].split('-');
+            // Send the HTML content to the server
+            fetch(`/invoice/updatePDF/${filenameWithExtension[1]}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

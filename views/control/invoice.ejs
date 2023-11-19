@@ -136,8 +136,8 @@
                         <td contenteditable="true" class="subtotal border-1"></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-top">お振込先: 
-                            <select id="selectionBankDetail" name="selectionBankDetail">
+                        <td contenteditable="true" colspan="4" class="border-top">お振込先  
+                            <select id="selectionBankDetail" name="selectionBankDetail" class="hideSelection">
                                 <% bankList.forEach(option => { %>
                                     <option value="<%= option %>"><%= option %></option>
                                 <% }); %>

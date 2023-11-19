@@ -44,7 +44,7 @@
                                     <td>
                                         <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
                                             <% for (const attachment of clientData[year][month].client[client]) { %>
-                                                <a href="/public/history/<%= client %>/<%= attachment %>"><%= attachment %></a><br>
+                                                <a href="/invoice/invoiceEditPDF/<%= client %>-<%= attachment %>" class="btn btn-primary btn-sm mt-1"><%= attachment %></a><br>
                                             <% } %>
                                         <% } %>
                                     </td>

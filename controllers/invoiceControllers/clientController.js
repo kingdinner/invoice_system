@@ -3,7 +3,7 @@ const invoiceController = require('../invoiceControllers/invoiceController');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const path = require('path');
-
+const fs = require('fs');
 
 const clientModel = require('../../models/clients');
 const companyModel = require('../../models/companyInformation');
@@ -62,7 +62,6 @@ const saveDetails = (req, res) => {
 
         // Check if an image was uploaded
         if (req.file) {
-            // Assuming the image is saved in a 'public/uploads' folder
             clientToUpdate.imagePath = `/images/client/${req.file.filename}`;
         }
  
@@ -123,6 +122,19 @@ const renderInvoice = (req, res) => {
         bankList
     });
 };
+const updatePDF = async(req, res) => {
+    const filename = req.params.fileName
+    const client = req.body.clientName.trim().replace(/ /g, '_');
+    const invoiceHTML = req.body.content
+  try {
+    await invoiceController.UpdatedFileGenerator(invoiceHTML, client, filename);
+
+    // Respond with a download link for the generated PDF
+    res.render('control/invoice', { client, menu: menuModel.get.menus() });
+  } catch (error) {
+    res.status(500).send('Error generating the invoice.');
+  }
+}
 
 const generatePDF = async (req, res) => {
     const invoiceHTML = req.body.content
@@ -177,12 +189,13 @@ const sendEmail = (req, res) => {
     const attachment = req.body.attachment;
     const clientAddress = req.body.clientAddress;
     const title = req.body.title;
-    const attachmentPath = path.resolve(__dirname, `../public/history/Joe/${attachment}`);
+    const attachmentPath = path.resolve(__dirname, `../../public/history/Joe/${attachment}`);
 
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
-        host: 'sandbox.smtp.mailtrap.io', // Mailtrap SMTP host
-        port: 2525, // Mailtrap SMTP port
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
             user: process.env.MAILTRAP_USER, // Mailtrap username (replace with your credentials)
             pass: process.env.MAILTRAP_PASS, // Mailtrap password (replace with your credentials)
@@ -228,6 +241,32 @@ const sendEmail = (req, res) => {
     });
 }
 
+const invoiceEditPDF = (req,res) => {
+    const extract = req.params.fileName.split('-')
+    const filename = extract[1].replace('pdf', 'text')
+    const newPath = path.resolve(__dirname, `../../public/history/${extract[0]}/${filename}`);
+    
+    const bankList = [];
+    const companyInfo = companyModel.get.companyInfo();
+
+    // Iterate through the bankingDetails and collect unique bank names
+    for (const detail of companyInfo.bankingDetails) {
+        if (detail.companyName && !bankList.includes(detail.companyName)) {
+            bankList.push(detail.companyName);
+        }
+    }
+    
+    fs.readFile(newPath, 'utf8', (err, invoiceContent) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error reading the invoice file');
+          return;
+        }
+
+        res.render('control/editInvoice', { company: companyInfo, invoiceContent });
+    });
+}
+
 const rendercontrolHistory = (req, res) => {
     const clientName = req.params.clientName.replace(/\s/g, '_').trim();
     const months = [
@@ -264,5 +303,7 @@ module.exports = {
     newClient,
     rendercontrolEmail,
     sendEmail,
-    rendercontrolHistory
+    rendercontrolHistory,
+    invoiceEditPDF,
+    updatePDF
 };
