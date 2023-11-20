@@ -113,3 +113,9 @@
 #attachmentSelect {
     width: 150px; /* You can adjust the width value as needed */
 }
+
+.rich-input {
+    min-height: 100px; /* Set the height */
+    resize: vertical; /* Allow vertical resizing */
+    overflow: auto; /* Enable scrolling if content exceeds height */
+}
