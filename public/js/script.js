@@ -112,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalCells = document.querySelectorAll('.total');
     const unitCells = document.querySelectorAll('.unit');
     const quantityCells = document.querySelectorAll('.quantity');
+    const tenPercentTax = document.querySelectorAll('.taxTenPercent');
+    const tenSubTotal = document.querySelectorAll('.taxTenSubtotal');
+    const eightPercentTax = document.querySelectorAll('.taxEightPercent');
+    const eightSubTotal = document.querySelectorAll('.taxEightSubtotal');
     const taxCells = document.querySelectorAll('.tax');
     const subtotalCell = document.querySelector('.subtotal');
     const totalTaxableCell = document.querySelector('.totalTaxable');
@@ -176,6 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
         calculateTotalTaxable();
         calculateSaleTax();
         calculateTotalAmount();
+        calculateTenPercentTax();
+        calculateEightPercentTax();
     }
 
 
@@ -238,6 +244,36 @@ document.addEventListener('DOMContentLoaded', function() {
             displayTotalCell.innerText = totalAmount.toFixed(2);
         }
     }
+
+    function calculateTenPercentTax() {
+        const totalTaxable = parseFloat(totalTaxableCell.innerText.replace('¥', ''));
+        const tenPercentTotal = parseFloat(document.querySelector('.tenPercent').innerText.replace('¥', ''));
+    
+        let tenPercentTax = 0;
+        if (tenPercentTotal !== 0) {
+            tenPercentTax = totalTaxable * 0.1;
+        }
+    
+        const tenPercentTaxCell = document.querySelector('.tenPercentTax');
+        if (tenPercentTaxCell) {
+            tenPercentTaxCell.innerText = '¥' + tenPercentTax.toFixed(2);
+        }
+    }
+    
+    function calculateEightPercentTax() {
+        const totalTaxable = parseFloat(totalTaxableCell.innerText.replace('¥', ''));
+        const eightPercentTotal = parseFloat(document.querySelector('.eightPercent').innerText.replace('¥', ''));
+    
+        let eightPercentTax = 0;
+        if (eightPercentTotal !== 0) {
+            eightPercentTax = totalTaxable * 0.08;
+        }
+    
+        const eightPercentTaxCell = document.querySelector('.eightPercentTax');
+        if (eightPercentTaxCell) {
+            eightPercentTaxCell.innerText = '¥' + eightPercentTax.toFixed(2);
+        }
+    }
 });
 
 
@@ -259,6 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ content: htmlContent, clientName }),
+                mode: 'cors', 
             })
             .then(response => response.json())
             .then(data => {

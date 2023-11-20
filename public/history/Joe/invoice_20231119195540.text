@@ -1,55 +1,55 @@
 <div class="content">
         <div class="container text-center">
-            <h1 class="mt-2">御請求書</h1>
+            <h1 class="mt-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Your bill</font></font></h1>
         </div>
         <div class="container">
             <div class="row">
                 <div class="row">
                     <div class="col-md-8">
-                        <label class="mt-2 mr-2">To: </label>
-                        <label for="clientDetailsContent" class="mt-2 mr-2">Joe</label>
+                        <label class="mt-2 mr-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">To:</font></font></label>
+                        <label for="clientDetailsContent" class="mt-2 mr-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Joe</font></font></label>
                     </div>
                     <div class="col-md-4">
                         <table class="table table-bordered">
                             <tbody><tr>
-                                <td>発行日</td>
-                                <td class="text-center" contenteditable="true">2023年10月7日</td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">date of issue</font></font></td>
+                                <td class="text-center" contenteditable="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">October 7, 2023</font></font></td>
                             </tr>
                             <tr>
-                                <td>お支払い期限</td>
-                                <td class="text-center" contenteditable="true">2023年10月31日</td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Payment deadline</font></font></td>
+                                <td class="text-center" contenteditable="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">October 31, 2023</font></font></td>
                             </tr>
                         </tbody></table>
                     </div>
                 </div>                     
             <div>
-                <p>千葉県市川市市川南1-7-24-101</p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1-7-24-101 Ichikawa Minami, Ichikawa City, Chiba Prefecture</font></font></p>
             </div>
             <div class="col-md-4 custom-pt-7">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                       <tr>
-                        <td>御請求金額</td>
-                        <td>¥</td>
-                        <td class="displayTotal">25900921290.33</td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Billed amount</font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥</font></font></td>
+                        <td class="displayTotal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">40892225023.61</font></font></td>
                       </tr>
                   </thead></table>
                 <div class="custom-pr-3">
-                    <p>毎度お引き立てを賜りありがとうございます。</p>
-                    <p>下記のとおりご請求申し上げます。</p>
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Thank you for your continued support.</font></font></p>
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">We would like to make a request as follows.</font></font></p>
                 </div>
             </div>
             <div class="col-md-3">
             </div>
             <div class="col-md-3">
-                <p>J-wire 株式会社</p>
-                <p>代表取締役内山剛臣</p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">J-wire Co., Ltd.</font></font></p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Representative Director Takeomi Uchiyama</font></font></p>
                 
-                <p>〒432-8031</p>
-                <p>浜松市中区平田町108 平田ホワイトビル3F</p>
-                <p>053-482-7913</p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">432-8031</font></font></p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hirata White Building 3F, 108 Hiratacho, Naka-ku, Hamamatsu City</font></font></p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">053-482-7913</font></font></p>
 
-                <p>登録番号:T9080401021109</p>
+                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Registration number:T9080401021109</font></font></p>
                 
             </div>
             <div class="col-md-2 custom-pt-12">
@@ -60,48 +60,48 @@
             <table id="invoicetable" class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th class="border-2">項目</th>
-                    <th class="border-2">個</th>
-                    <th class="border-2">為替</th>
-                    <th class="border-2">金額</th>
-                    <th class="border-2">消費税率</th>
-                    <th class="border-2">合計</th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">item</font></font></th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Individual</font></font></th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">money order</font></font></th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Amount of money</font></font></th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sales tax rate</font></font></th>
+                    <th class="border-2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">total</font></font></th>
                   </tr>
                 </thead>
                 <tbody>
                     
                         <tr>
-                            <td contenteditable="true" class="border-1">programming</td>
-                            <td contenteditable="true" class="unit border-1">1231</td>
-                            <td contenteditable="true" class="quantity border-1">123123</td>
-                            <td contenteditable="true" class="price border-1">10.99</td>
+                            <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">programming</font></font></td>
+                            <td contenteditable="true" class="unit border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1231</font></font></td>
+                            <td contenteditable="true" class="quantity border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1231235</font></font></td>
+                            <td contenteditable="true" class="price border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10.99</font></font></td>
                             <td class="border-1">
                                 <div class="form-group">
                                     <select class="form-control tax">
-                                        <option value="10%" selected="">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%" selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
-                            <td contenteditable="false" class="total border-1">¥1665692898.87</td>
+                            <td contenteditable="false" class="total border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥16656996632.15</font></font></td>
                         </tr>
                     
                         <tr>
-                            <td contenteditable="true" class="border-1">C++</td>
-                            <td contenteditable="true" class="unit border-1">1231</td>
-                            <td contenteditable="true" class="quantity border-1">1231234</td>
-                            <td contenteditable="true" class="price border-1">15.99</td>
+                            <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">C++</font></font></td>
+                            <td contenteditable="true" class="unit border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1231</font></font></td>
+                            <td contenteditable="true" class="quantity border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1231234</font></font></td>
+                            <td contenteditable="true" class="price border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">15.99</font></font></td>
                             <td class="border-1">
                                 <div class="form-group">
                                     <select class="form-control tax">
-                                        <option value="10%">10%</option>
-                                        <option value="8%" selected="">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%" selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
-                            <td contenteditable="false" class="total border-1">¥24235228373.46</td>
+                            <td contenteditable="false" class="total border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥24235228373.46</font></font></td>
                         </tr>
                     
                     
@@ -113,26 +113,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td contenteditable="false" class="total border-1"></td>
-                        </tr>
-                    
-                        <tr>
-                            <td contenteditable="true" class="name border-1 displaySelect"></td>
-                            <td contenteditable="true" class="unit border-1"></td>
-                            <td contenteditable="true" class="quantity border-1"></td>
-                            <td contenteditable="true" class="price border-1"></td>
-                            <td contenteditable="false" class="tax border-1">
-                                <div class="form-group">
-                                    <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -147,9 +130,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -164,9 +147,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -181,9 +164,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -198,9 +181,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -215,9 +198,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -232,9 +215,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -249,9 +232,9 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -266,9 +249,26 @@
                             <td contenteditable="false" class="tax border-1">
                                 <div class="form-group">
                                     <select class="form-control hidden">
-                                        <option value="10%">10%</option>
-                                        <option value="8%">8%</option>
-                                        <option value="0%">0%</option>
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ten%</font></font></option>
+                                        <option value="8%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">8%</font></font></option>
+                                        <option value="0%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0%</font></font></option>
                                     </select>
                                 </div>
                             </td>
@@ -277,45 +277,45 @@
                     
                     <tr>
                         <td contenteditable="true" colspan="4" class="border-1"></td>
-                        <td contenteditable="true" class="border-1">小計</td>
-                        <td contenteditable="true" class="subtotal border-1">¥25900921272.33</td>
+                        <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">subtotal</font></font></td>
+                        <td contenteditable="true" class="subtotal border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥40892225005.61</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-top">お振込先  
-                            <select id="selectionBankDetail" name="selectionBankDetail" class="hideSelection">
+                        <td contenteditable="true" colspan="4" class="border-top"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Transfer destination  
+                            </font></font><select id="selectionBankDetail" name="selectionBankDetail" class="hideSelection">
                                 
-                                    <option value="J-wire株式会社">J-wire株式会社</option>
+                                    <option value="J-wire株式会社"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">J-wire Co., Ltd.</font></font></option>
                                 
-                                    <option value="Western Union">Western Union</option>
+                                    <option value="Western Union"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Western Union</font></font></option>
                                 
                             </select>
                         </td>
-                        <td contenteditable="true" class="border-1">非課税対照</td>
+                        <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tax-free contrast</font></font></td>
                         <td contenteditable="true" class="border-1"></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0">楽天銀行</td>
-                        <td contenteditable="true" class="border-1" id="bankName">住信SBIネット銀行</td>
-                        <td contenteditable="true" class="totalTaxable border-1">¥25900921272.33</td>
+                        <td contenteditable="true" colspan="4" class="border-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rakuten Bank</font></font></td>
+                        <td contenteditable="true" class="border-1" id="bankName"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sumishin SBI Net Bank</font></font></td>
+                        <td contenteditable="true" class="totalTaxable border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥40892225005.61</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="bankNameDetails">住信SBIネット銀行</td>
-                        <td contenteditable="true" class="border-1">消費税</td>
-                        <td contenteditable="true" class="saleTax border-1">¥18.00</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="bankNameDetails"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sumishin SBI Net Bank</font></font></td>
+                        <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">consumption tax</font></font></td>
+                        <td contenteditable="true" class="saleTax border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥18.00</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="branchNo">支店番号： 106</td>
-                        <td contenteditable="true" class="border-1">合計金額</td>
-                        <td contenteditable="true" class="totalAmount border-1">¥25900921290.33</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchNo"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Branch number: 106</font></font></td>
+                        <td contenteditable="true" class="border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">total amount</font></font></td>
+                        <td contenteditable="true" class="totalAmount border-1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¥40892225023.61</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="branchName">支店名： 法人第一支店</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchName"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Branch name: Corporate First Branch</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="type">口座の種類： 普通</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="type"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account type: Normal</font></font></td>
                     </tr>
                     <tr>
-                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo">口座番号： 1193845</td>
+                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account number: 1193845</font></font></td>
                     </tr>
                 </tbody>
               </table>
