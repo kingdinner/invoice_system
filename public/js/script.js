@@ -1,3 +1,17 @@
+function getBaseURL() {
+    let baseURL = '';
+  
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Localhost environment
+      baseURL = 'http://localhost:3000'; // Change the port as needed
+    } else {
+      // Production environment
+      baseURL = 'http://128.199.211.230'; // Replace with your production URL
+    }
+  
+    return baseURL;
+  }
+
 document.addEventListener("DOMContentLoaded", function () {
     const detailsButtons = document.querySelectorAll(".details-button");
     const modalTitle = document.getElementById("clientDetailsModalLabel");
@@ -336,22 +350,29 @@ document.addEventListener('DOMContentLoaded', function() {
             const labelElement = document.querySelector('label[for="clientDetailsContent"]');
             const clientName = labelElement.textContent;
             
+            const formData = new FormData();
+            formData.append('content', htmlContent);
+            formData.append('clientName', clientName);
+
             // Send the HTML content to the server
-            fetch('/invoice/savePDF', {
+            fetch(getBaseURL() + '/invoice/savePDF', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ content: htmlContent, clientName }),
-                mode: 'cors', 
+                body: formData,
+                mode: 'cors',
             })
-            .then(response => response.json())
+            .then(response => response)
             .then(data => {
                 // Handle the response from the server, if needed
                 console.log(data);
+                if (data.status == 200) {
+                    // If the response indicates success, display a success message
+                    alert('Invoice saved successfully!');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
+                // Display an error message in case of an error
+                alert('Error occurred while saving the invoice.');
             });
         });
     }
@@ -374,20 +395,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const parts = pathname.split('/');
             const filenameWithExtension = parts[parts.length - 1].split('-');
             // Send the HTML content to the server
-            fetch(`/invoice/updatePDF/${filenameWithExtension[1]}`, {
+            const formData = new FormData();
+            formData.append('content', htmlContent);
+            formData.append('clientName', clientName);
+            
+            // Send the form data to the server using FormData and a POST request
+            fetch(getBaseURL() + `/invoice/updatePDF/${filenameWithExtension[1]}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ content: htmlContent, clientName }),
+                body: formData,
             })
             .then(response => response.json())
             .then(data => {
                 // Handle the response from the server, if needed
                 console.log(data);
+                if (data.status == 200) {
+                    // If the response indicates success, display a success message
+                    alert('Invoice updated successfully!');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
+                // Display an error message in case of an error
+                alert('Error occurred while saving the invoice.');
             });
         });
     }
@@ -421,7 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         
         // Send the data to the server using a fetch request
-        fetch("/invoice/saveMenu", {
+        fetch(getBaseURL() + "/invoice/saveMenu", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -431,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => {
                 if (response.ok) {
                     // Data sent successfully
-                    console.log("Data sent successfully");
+                    alert('Menu updated successfully!');
                 } else {
                     // Handle errors
                     console.error("Error sending data");
@@ -444,6 +473,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 
 $(document).ready(function() {
     $("#sendEmailButton").on("click", function() {
@@ -536,12 +566,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 formData.append('image', imageFile);
             }
 
-            fetch('/invoice/update/companyInformation', {
+            fetch(getBaseURL() + '/invoice/update/companyInformation', {
                 method: 'POST',
                 body: formData // Pass the FormData object directly as the body of the request
             })
             .then(response => {
                 // Handle the response (e.g., display success or error message)
+
+                alert('Company Information updated successfully!');
                 console.log(response);
             })
             .catch(error => {
@@ -559,7 +591,7 @@ $(document).ready(function() {
         var editedTitle = $("#editTitle" + index).val();
         var editedText = $("#editInput" + index).val();
 
-        fetch("/invoice/updateEmailTemplate", {
+        fetch(getBaseURL() + "/invoice/updateEmailTemplate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -574,6 +606,8 @@ $(document).ready(function() {
                 if (response.ok) {
                     // Data sent successfully
                     console.log("Data sent successfully");
+
+                    alert('Email Template updated successfully!');
                     // You can handle the response if needed
                 } else {
                     // Handle errors
@@ -600,54 +634,139 @@ const branchName = document.getElementById('branchName');
 const type = document.getElementById('type');
 const accountNo = document.getElementById('accountNo');
 
-const decodedJSON = JSON.parse(decodeHTMLEntities(bankDetails));
-console.log(decodedJSON)
-selectionBankDetail.addEventListener('change', function() {
-    const selectedBank = selectionBankDetail.value;
+if (selectionBankDetail) {
+    const decodedJSON = JSON.parse(decodeHTMLEntities(bankDetails));
+    selectionBankDetail.addEventListener('change', function() {
+        const selectedBank = selectionBankDetail.value;
 
-    const matchingDetails = decodedJSON.filter(detail => detail.companyName === selectedBank);
-    if (matchingDetails[0]) {
-        bankName.textContent = matchingDetails[0].bankName;
-        bankNameDetails.textContent = matchingDetails[0].bankName;
-        branchNo.textContent = `支店番号： ${matchingDetails[0].branchNo}`;
-        branchName.textContent = `支店名： ${matchingDetails[0].branchName}`;
-        type.textContent = `口座の種類： ${matchingDetails[0].type}`;
-        accountNo.textContent = `口座番号： ${matchingDetails[0].accountNo}`;
-    } else {
-        bankName.textContent = '';
-        bankNameDetails.textContent = '';
-        branchNo.textContent = '';
-        branchName.textContent = '';
-        type.textContent = '';
-        accountNo.textContent = '';
-    }
-  
+        const matchingDetails = decodedJSON.filter(detail => detail.companyName === selectedBank);
+        if (matchingDetails[0]) {
+            bankName.textContent = matchingDetails[0].bankName;
+            bankNameDetails.textContent = matchingDetails[0].bankName;
+            branchNo.textContent = `支店番号： ${matchingDetails[0].branchNo}`;
+            branchName.textContent = `支店名： ${matchingDetails[0].branchName}`;
+            type.textContent = `口座の種類： ${matchingDetails[0].type}`;
+            accountNo.textContent = `口座番号： ${matchingDetails[0].accountNo}`;
+        } else {
+            bankName.textContent = '';
+            bankNameDetails.textContent = '';
+            branchNo.textContent = '';
+            branchName.textContent = '';
+            type.textContent = '';
+            accountNo.textContent = '';
+        }
+    
 
-});
+    });
+}
 
+// Check the current route to auto-expand the relevant section
+var currentRoute = window.location.pathname;
 $('.nav-link').click(function() {
     $('.nav-link').removeClass('activeCollpasse');
     $(this).addClass('activeCollpasse');
 
     // Collapse or expand the sidebar sections based on the link prefix
     if ($(this).attr('href').startsWith('/invoice')) {
-        $('#invoiceSubMenu').collapse('show');
-        $('#shipmentSubMenu').collapse('hide');
+        try {
+            $('#invoiceSubMenu').collapse('show');
+            $('#shipmentSubMenu').collapse('hide');
+        } catch (error) {
+            
+        }
     } else if ($(this).attr('href').startsWith('/shipments')) {
-        $('#shipmentSubMenu').collapse('show');
-        $('#invoiceSubMenu').collapse('hide');
+        try {
+            $('#shipmentSubMenu').collapse('show');
+            $('#invoiceSubMenu').collapse('hide');
+        } catch (error) {
+            
+        }
     }
 });
 
-// Check the current route to auto-expand the relevant section
-var currentRoute = window.location.pathname;
 
 if (currentRoute.startsWith('/invoice')) {
-    $('#invoiceSubMenu').collapse('show');
-    $('#shipmentSubMenu').collapse('hide');
-    $('.nav-link[href^="/invoice"]').addClass('activeCollpasse');
+    try {
+        $('#invoiceSubMenu').collapse('show');
+        $('#shipmentSubMenu').collapse('hide');
+        $('.nav-link[href^="/invoice"]').addClass('activeCollpasse');
+    } catch (error) {
+        
+    }
 } else if (currentRoute.startsWith('/shipments')) {
-    $('#shipmentSubMenu').collapse('show');
-    $('#invoiceSubMenu').collapse('hide');
-    $('.nav-link[href^="/shipments"]').addClass('activeCollpasse');
+    try {
+        $('#shipmentSubMenu').collapse('show');
+        $('#invoiceSubMenu').collapse('hide');
+        $('.nav-link[href^="/shipments"]').addClass('activeCollpasse');
+        
+    } catch (error) {
+        
+    }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Capture the click event on the delete buttons
+    document.querySelectorAll('.delete-pdf-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const client = this.getAttribute('data-client');
+            const attachment = this.getAttribute('data-attachment');
+            
+            // Fetch request to delete the PDF
+            fetch('/invoice/deletePDF', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ client, attachment })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success (optional)
+
+                    alert('File is deleted successfully!');
+                    console.log('PDF deleted successfully');
+                } else {
+                    // Handle failure or other status codes if needed
+                    console.error('Failed to delete PDF');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initially hide the select element
+    var selects = document.querySelectorAll('select');
+    selects.forEach(function(select) {
+        select.style.display = 'none';
+    });
+
+    // Function to handle input event on cells with class 'newData'
+    function handleInput() {
+        var newDataCells = document.querySelectorAll('.newDataMenu');
+        newDataCells.forEach(function(cell) {
+            cell.addEventListener('input', function() {
+                var row = cell.parentNode;
+                var select = row.querySelector('select');
+
+                // Show or hide select based on input presence
+                if (cell.textContent.trim().length > 0) {
+                    select.style.display = 'inline-block';
+                } else {
+                    select.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // Call the function initially and on DOM changes
+    handleInput();
+
+    // If you dynamically add new rows, call handleInput() again after adding them.
+    // For instance, after appending a new row:
+    // handleInput();
+
+});

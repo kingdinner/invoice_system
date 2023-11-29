@@ -50,18 +50,19 @@ router.post('/invoice/submit-form', uploadClient.single('image'), clientControll
 router.post('/invoice/mailSubmit-form', clientController.emailSaveDetails);
 router.post('/invoice/newClientSubmitForm', clientController.newClient);
 
-router.post('/invoice/saveMenu', menuController.insertMenus);
-router.post('/invoice/savePDF', clientController.generatePDF);
+router.post('/invoice/saveMenu', upload.none(), menuController.insertMenus);
+router.post('/invoice/savePDF', upload.none(), clientController.generatePDF);
 router.post('/invoice/sendEmail', clientController.sendEmail);
 router.get('/invoice/invoiceEditPDF/:fileName', clientController.invoiceEditPDF);
-router.post('/invoice/updatePDF/:fileName', clientController.updatePDF);
+router.post('/invoice/updatePDF/:fileName', upload.none(), clientController.updatePDF);
+router.post('/invoice/deletePDF', upload.none(), clientController.deletePDFActions);
 
 router.get('/invoice/control/sendEmail/:clientName', clientController.rendercontrolEmail);
 router.get('/invoice/control/createInvoice/:clientName', clientController.renderInvoice);
 
 router.get('/invoice/control/history/:clientName', clientController.rendercontrolHistory);
 
-router.get('/invoice/company-information', companyInfoController.renderCompanyInformation);
+router.get('/invoice/company-information', upload.none(), companyInfoController.renderCompanyInformation);
 router.post('/invoice/update/companyInformation', upload.single('image'), companyInfoController.updatecompanyInformation);
 
 router.get('/shipments/create', shipmentController.shipmentPage);

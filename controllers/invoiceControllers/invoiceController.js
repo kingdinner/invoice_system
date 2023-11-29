@@ -1,18 +1,10 @@
-const puppeteer = require('puppeteer');
 const path = require('path');
 const { format } = require('date-fns');
 const fs = require('fs');
+const pdf = require('html-pdf');
 
 const UpdatedFileGenerator = async (htmlContent,client, filename) => {
 
-  console.log('test')
-  const browser = await puppeteer.launch({
-    headless: false,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-
-  const page = await browser.newPage();
-  // Set the HTML content
   const invoice = `
   <html lang="en">
     <head>
@@ -77,7 +69,11 @@ const UpdatedFileGenerator = async (htmlContent,client, filename) => {
       </body>
     </html>
 `;
-  await page.setContent(invoice);
+
+const options = {
+  format: 'Letter',
+  orientation: 'portrait',
+};
   // Specify the full path to save the PDF in the "public" folder with the generated file name
   const pdfPath = path.resolve(__dirname, `../../public/history/${client}`);
 
@@ -94,31 +90,21 @@ const UpdatedFileGenerator = async (htmlContent,client, filename) => {
     console.log('File invoice.html has been saved!');
   });
 
-  // Generate a PDF from the HTML content and save it with the generated file name
-  await page.pdf({
-    path: `${pdfPath}/${filename}`,
-    format: 'A4',
-    margin: {
-      top: '1cm',
-      bottom: '1cm',
-    },
+  pdf.create(invoice, options).toFile(`${pdfPath}/${filename}`, (err, res) => {
+    if (err) return console.error(err);
+    console.log(`PDF generated at: ${res.filename}`);
   });
-
-  await browser.close();
 
   // Return the generated PDF file name
   return `${filename}`;
 }
 
 const generateInvoicePDF = async (htmlContent,client) => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
 
-  const page = await browser.newPage();
-
-
+  const options = {
+    format: 'Letter',
+    orientation: 'portrait',
+  };
   // Set the HTML content
   const invoice = `
   <html lang="en">
@@ -185,7 +171,6 @@ const generateInvoicePDF = async (htmlContent,client) => {
     </html>
 `;
 
-  await page.setContent(invoice);
   // Generate a timestamp for the file name
   const timestamp = format(new Date(), 'yyyyMMddHHmmss');
 
@@ -197,6 +182,7 @@ const generateInvoicePDF = async (htmlContent,client) => {
   if (!fs.existsSync(pdfPath)) {
     fs.mkdirSync(pdfPath, { recursive: true });
   }
+
   fs.writeFile(`${pdfPath}/invoice_${timestamp}.text`, htmlContent, (err) => {
     if (err) {
       console.error(err);
@@ -205,17 +191,10 @@ const generateInvoicePDF = async (htmlContent,client) => {
     console.log('File invoice.html has been saved!');
   });
 
-  // Generate a PDF from the HTML content and save it with the generated file name
-  await page.pdf({
-    path: `${pdfPath}/${pdfFileName}`,
-    format: 'A4',
-    margin: {
-      top: '1cm',
-      bottom: '1cm',
-    },
+  pdf.create(invoice, options).toFile(`${pdfPath}/${pdfFileName}`, (err, res) => {
+    if (err) return console.error(err);
+    console.log(`PDF generated at: ${res.filename}`);
   });
-
-  await browser.close();
 
   // Return the generated PDF file name
   return `${pdfFileName}`;
