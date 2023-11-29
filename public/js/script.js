@@ -553,22 +553,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function() {
-    $(".edit-button").on("click", function() {
-        var index = $(this).data("index");
-        $("#labelText" + index).hide();
-        $("#editInput" + index).show();
-        $("#editButton" + index).hide();
-        $("#saveButton" + index).show();
-    });
 
     $(".save-button").on("click", function() {
         var index = $(this).data("index");
+        var editedTitle = $("#editTitle" + index).val();
         var editedText = $("#editInput" + index).val();
-        $("#labelText" + index).text(editedText);
-        $("#editInput" + index).hide();
-        $("#labelText" + index).show();
-        $("#editButton" + index).show();
-        $("#saveButton" + index).hide();
 
         fetch("/invoice/updateEmailTemplate", {
             method: "POST",
@@ -577,7 +566,8 @@ $(document).ready(function() {
             },
             body: JSON.stringify({
                 index: index,
-                editedText: editedText
+                editTitle: editedTitle,
+                editText: editedText
             })
         })
             .then(response => {

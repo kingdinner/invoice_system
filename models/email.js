@@ -1,7 +1,13 @@
 const inMemoryEmailTemplate = {
     template: [
-        "Thank you so much for working with us....",
-        "It was great to work with "
+        {
+            "title": "Welcome Back",
+            "body":"Thank you so much for working with us...."
+        },
+        {
+            "title": "Thank You",
+            "body":"Thank you so much for working with us...."
+        },
     ]
 };
 
@@ -10,9 +16,11 @@ const emailTemplateModel = {
         templates: () => inMemoryEmailTemplate.template,
     },
     update: {
-        template: (index, newTemplate) => {
+        template: (index, editedTitle, editedBody) => {
         if (index >= 0 && index < inMemoryEmailTemplate.template.length) {
-            inMemoryEmailTemplate.template[index] = newTemplate;
+            inMemoryEmailTemplate.template[index].title = editedTitle;
+            inMemoryEmailTemplate.template[index].body = editedBody;
+            console.log(inMemoryEmailTemplate.template[index])
             return "Email template updated successfully";
         } else {
             return "Invalid template index";

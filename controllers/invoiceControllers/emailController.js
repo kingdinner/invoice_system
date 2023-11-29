@@ -5,18 +5,13 @@ const renderEmail = (req, res) => {
 };
 
 const updateEmailTemplate = (req, res) => {
-    const { index, editedText } = req.body;
+    const { index, editTitle, editText } = req.body;
+    const updateStatus = emailTemplateModel.update.template(index, editTitle, editText); // Update template using the model
 
-    if (index !== undefined && editedText !== undefined) {
-        const updateStatus = emailTemplateModel.update.template(index, editedText); // Update template using the model
-
-        if (updateStatus === "Email template updated successfully") {
-            res.status(200).send(updateStatus);
-        } else {
-            res.status(400).send(updateStatus);
-        }
+    if (updateStatus === "Email template updated successfully") {
+        res.status(200).send(updateStatus);
     } else {
-        res.status(400).send("Invalid request data.");
+        res.status(400).send(updateStatus);
     }
 };
 

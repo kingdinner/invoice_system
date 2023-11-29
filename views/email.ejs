@@ -18,19 +18,17 @@
             </button>
             <% emailValues.forEach(function(value, index) { %>
                 <div class="row mt-4">
-                    <div class="col-md-1">
-                        <!-- Add a column for the number -->
-                        <span class="number-label"><%= index + 1 %></span>
-                    </div>
-                    <div class="col-md-5">
-                        <span class="label-text" id="labelText<%= index %>"><%= value %></span>
+                    <div>
                         <form id="editForm<%= index %>" action="/updateEmailTemplate" method="POST">
-                            <input type="text" class="form-control" id="editInput<%= index %>" value="<%= value %>" style="display: none;">
+                            <label for="editTitle<%= index %>">Title</label>
+                            <input type="text" class="form-control" id="editTitle<%= index %>" value="<%= value.title %>">
+                            
+                            <label for="editInput<%= index %>">Body</label>
+                            <input type="text" class="form-control" id="editInput<%= index %>" value="<%= value.body %>">
                         </form>
                     </div>
-                    <div class="col-md-6">
-                        <button id="editButton<%= index %>" class="btn btn-primary edit-button" data-index="<%= index %>">Edit</button>
-                        <button id="saveButton<%= index %>" class="btn btn-success save-button" data-index="<%= index %>" style="display: none;">Save</button>
+                    <div class="mt-2">
+                        <button id="saveButton<%= index %>" class="btn btn-success save-button" data-index="<%= index %>">Save</button>
                     </div>
                 </div>
             <% }); %>
