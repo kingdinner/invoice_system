@@ -123,28 +123,35 @@ const renderInvoice = (req, res) => {
     });
 };
 const updatePDF = async(req, res) => {
+    const bankList = [];
     const filename = req.params.fileName
     const client = req.body.clientName.trim().replace(/ /g, '_');
     const invoiceHTML = req.body.content
-  try {
+    const companyInfo = companyModel.get.companyInfo();
+//   try {
     await invoiceController.UpdatedFileGenerator(invoiceHTML, client, filename);
 
+    for (const detail of companyInfo.bankingDetails) {
+        if (detail.companyName && !bankList.includes(detail.companyName)) {
+            bankList.push(detail.companyName);
+        }
+    }
+
     // Respond with a download link for the generated PDF
-    res.render('control/invoice', { client, menu: menuModel.get.menus() });
-  } catch (error) {
-    res.status(500).send('Error generating the invoice.');
-  }
+    res.render('control/invoice', { client, menu: menuModel.get.menus(), company: companyInfo, bankList });
 }
 
 const generatePDF = async (req, res) => {
+    const bankList = [];
     const invoiceHTML = req.body.content
     const client = req.body.clientName.trim().replace(/ /g, '_');
-  try {
+    const companyInfo = companyModel.get.companyInfo();
+
+//   try {
     const filenamePath = await invoiceController.generateInvoicePDF(invoiceHTML, client);
     const currentYear = new Date().getFullYear(); 
     const currentMonth = new Date().toLocaleString('default', { month: 'long' });
 
-    console.log(historyModel.find.historyByMonth(year))
     if (!historyModel.find.historyByYear) {
         historyModel.update.historyByYear(currentYear)
     }
@@ -156,15 +163,27 @@ const generatePDF = async (req, res) => {
             },
         })
     }
+
+    for (const detail of companyInfo.bankingDetails) {
+        if (detail.companyName && !bankList.includes(detail.companyName)) {
+            bankList.push(detail.companyName);
+        }
+    }
     
     // Push the filenamePath to the client's invoices array
     historyModel.update.historyByFilePath(currentYear,currentMonth, client, filenamePath)
     // Respond with a download link for the generated PDF
-    res.render('control/invoice', { client, menu: menuModel.get.menus() });
-  } catch (error) {
-    res.status(500).send('Error generating the invoice.');
-  }
+    res.render('control/invoice', { 
+        client, 
+        menu: menuModel.get.menus(),
+        company: companyInfo, // Use fetched company information
+        bankList
+    });
+//   } catch (error) {
+//     res.status(500).send('Error generating the invoice.');
+//   }
 }
+
 
 const rendercontrolEmail = (req, res) => {
     const emailValues = emailTemplateModel.get.templates();
@@ -267,6 +286,45 @@ const invoiceEditPDF = (req,res) => {
     });
 }
 
+
+const deletePDFActions = (req, res) => {
+    const {client, attachment} = req.body
+    const months = [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+    const year = new Date().getFullYear();
+    
+    const newInMemoryHistory = {}; // Creating a new object to store corrected month structure
+    newInMemoryHistory[year] = {};
+    
+    months.forEach(month => {
+        if (!historyModel.find.historyByMonth(year, month)) {
+            newInMemoryHistory[year][month] = { "client": {} };
+        } else {
+            newInMemoryHistory[year][month] = historyModel.delete(year, month, client, attachment);
+        }
+    });
+    const filePath = path.resolve(__dirname, `../../public/history/${client}/${attachment}`); // Replace this with the actual file path
+    const filePathText = path.resolve(__dirname, `../../public/history/${client}/${attachment.replace('pdf', 'text')}`); // Replace this with the actual file path
+    // Delete the file
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error('Error deleting file:', err);
+            return;
+        }
+        console.log('File deleted successfully');
+    });
+    fs.unlink(filePathText, (err) => {
+        if (err) {
+            console.error('Error deleting file:', err);
+            return;
+        }
+        console.log('File deleted successfully');
+    });
+    const clientData = newInMemoryHistory;
+    res.render('control/history', { client, clientData, getClientData, changeBasedYear });
+}
+
 const rendercontrolHistory = (req, res) => {
     const clientName = req.params.clientName.replace(/\s/g, '_').trim();
     const months = [
@@ -305,5 +363,6 @@ module.exports = {
     sendEmail,
     rendercontrolHistory,
     invoiceEditPDF,
-    updatePDF
+    updatePDF,
+    deletePDFActions
 };

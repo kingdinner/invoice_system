@@ -34,12 +34,19 @@
                                 <td contenteditable="true"><%= menu[i].tax %></td>
                             </tr>
                         <% } %>
-                        <tr>
-                            <td contenteditable="true"><%= menu.length %></td>
-                            <td contenteditable="true"></td>
-                            <td contenteditable="true"></td>
-                            <td contenteditable="true"></td>
-                        </tr>
+                            <tr>
+                                <td contenteditable="true"><%= menu.length %></td>
+                                <td contenteditable="true" class="newDataMenu"></td>
+                                <td contenteditable="true"></td>
+                                <td contenteditable="true">
+                                    <select>
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </td>
+                            </tr>    
+                        </table>
                     </tbody>
                 </table>
                 <input type="submit" class="btn btn-primary" value="Save" />

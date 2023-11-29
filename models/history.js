@@ -7,7 +7,7 @@ let inMemoryHistory = {
         },
         "November": {
             "client": {
-                "Joe": ["invoice_20231120202531.pdf", "invoice_20231018110432.pdf"]
+                "Joe": ["invoice_20231119195540.pdf", "invoice_20231120202531.pdf"]
             }
         }
     }
@@ -43,6 +43,26 @@ const historyModel = {
         },
         historyByFilePath: (year, month, client, path) => {
             return inMemoryHistory[year][month].client[client].push(path);
+        }
+    },
+    delete: (year, month, client, invoice) => {
+        if (
+            inMemoryHistory[year] &&
+            inMemoryHistory[year][month] &&
+            inMemoryHistory[year][month].client &&
+            inMemoryHistory[year][month].client[client]
+        ) {
+            const invoices = inMemoryHistory[year][month].client[client];
+            const index = invoices.indexOf(invoice);
+
+            if (index !== -1) {
+                invoices.splice(index, 1);
+                return "Invoice deleted successfully";
+            } else {
+                return "Invoice not found for deletion";
+            }
+        } else {
+            return "History not found for the given month, year, or client";
         }
     }
 };
