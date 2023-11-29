@@ -42,7 +42,11 @@ const historyModel = {
             return inMemoryHistory[year]
         },
         historyByFilePath: (year, month, client, path) => {
-            return inMemoryHistory[year][month].client[client].push(path);
+            try {
+                return inMemoryHistory[year][month].client[client].push(path);
+            } catch (error) {
+                return inMemoryHistory[year][month]["client"][client] = [path];
+            }
         }
     },
     delete: (year, month, client, invoice) => {

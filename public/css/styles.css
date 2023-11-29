@@ -119,3 +119,7 @@
     resize: vertical; /* Allow vertical resizing */
     overflow: auto; /* Enable scrolling if content exceeds height */
 }
+
+p {
+    margin: .3rem; /* Remove margin */
+  }

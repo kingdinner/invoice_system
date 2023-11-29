@@ -363,7 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response)
             .then(data => {
                 // Handle the response from the server, if needed
-                console.log(data);
                 if (data.status == 200) {
                     // If the response indicates success, display a success message
                     alert('Invoice saved successfully!');
@@ -739,18 +738,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initially hide the select element
-    var selects = document.querySelectorAll('select');
+    var selects = document.querySelectorAll('.menuSelect'); // Update the class name here
     selects.forEach(function(select) {
         select.style.display = 'none';
     });
 
-    // Function to handle input event on cells with class 'newData'
+    // Function to handle input event on cells with class 'newDataMenu'
     function handleInput() {
         var newDataCells = document.querySelectorAll('.newDataMenu');
         newDataCells.forEach(function(cell) {
             cell.addEventListener('input', function() {
                 var row = cell.parentNode;
-                var select = row.querySelector('select');
+                var select = row.querySelector('.menuSelect'); // Update the class name here
 
                 // Show or hide select based on input presence
                 if (cell.textContent.trim().length > 0) {

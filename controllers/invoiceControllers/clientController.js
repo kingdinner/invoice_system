@@ -155,7 +155,6 @@ const generatePDF = async (req, res) => {
     if (!historyModel.find.historyByYear) {
         historyModel.update.historyByYear(currentYear)
     }
-    
     if (!historyModel.find.historyByMonth(currentYear,currentMonth)) {
         historyModel.update.historyByMonth(currentYear,currentMonth, {
             client: {
@@ -163,6 +162,7 @@ const generatePDF = async (req, res) => {
             },
         })
     }
+
 
     for (const detail of companyInfo.bankingDetails) {
         if (detail.companyName && !bankList.includes(detail.companyName)) {

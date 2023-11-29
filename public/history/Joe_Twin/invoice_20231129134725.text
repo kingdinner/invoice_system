@@ -1,0 +1,349 @@
+<div class="content">
+        <div class="container text-center">
+            <h1 class="mt-2">御請求書</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="mt-2 mr-2">To: </label>
+                        <label for="clientDetailsContent" class="mt-2 mr-2">Joe_Twin</label>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <tbody><tr>
+                                <td>発行日</td>
+                                <td class="text-center">
+                                    <input type="text" class="form-control datepicker" value="2023年10月7日">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>お支払い期限</td>
+                                <td class="text-center">
+                                    <input type="text" class="form-control datepicker" value="2023年10月31日">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </div>
+                </div>                     
+            <div>
+                <p>千葉県市川市市川南1-7-24-101</p>
+            </div>
+            <div class="col-md-4 custom-pt-7">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                      <tr>
+                        <td>御請求金額</td>
+                        <td>¥</td>
+                        <td class="displayTotal">32691.72</td>
+                      </tr>
+                  </thead></table>
+                <div class="custom-pr-3">
+                    <p>毎度お引き立てを賜りありがとうございます。</p>
+                    <p>下記のとおりご請求申し上げます。</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+                <p>J-wire 株式会社</p>
+                <p>代表取締役内山剛臣</p>
+                
+                <p>〒432-8031</p>
+                <p>浜松市中区平田町108 平田ホワイトビル3F</p>
+                <p>053-482-7913</p>
+
+                <p>登録番号:T9080401021109</p>
+                
+            </div>
+            <div class="col-md-2 custom-pt-12">
+                <img src="/images/companyImage/company_image.jpg" alt="Company Image">
+            </div>
+        </div>
+        <div>
+            <table id="invoicetable" class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th class="border-2">項目</th>
+                    <th class="border-2">個</th>
+                    <th class="border-2">為替</th>
+                    <th class="border-2">金額</th>
+                    <th class="border-2">消費税率</th>
+                    <th class="border-2">合計</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                        <tr>
+                            <td contenteditable="true" class="border-1">programming</td>
+                            <td contenteditable="true" class="unit border-1">23</td>
+                            <td contenteditable="true" class="quantity border-1">123</td>
+                            <td contenteditable="true" class="price border-1">10.99</td>
+                            <td class="border-1">
+                                <div class="form-group">
+                                    <select class="form-control tax">
+                                        <option value="10%" selected="">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1">¥31090.71</td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="border-1">C++</td>
+                            <td contenteditable="true" class="unit border-1">3</td>
+                            <td contenteditable="true" class="quantity border-1">33</td>
+                            <td contenteditable="true" class="price border-1">15.99</td>
+                            <td class="border-1">
+                                <div class="form-group">
+                                    <select class="form-control tax">
+                                        <option value="10%">10%</option>
+                                        <option value="8%" selected="">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1">¥1583.01</td>
+                        </tr>
+                    
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                        <tr>
+                            <td contenteditable="true" class="name border-1 displaySelect"></td>
+                            <td contenteditable="true" class="unit border-1"></td>
+                            <td contenteditable="true" class="quantity border-1"></td>
+                            <td contenteditable="true" class="price border-1"></td>
+                            <td contenteditable="false" class="tax border-1">
+                                <div class="form-group">
+                                    <select class="form-control hidden">
+                                        <option value="10%">10%</option>
+                                        <option value="8%">8%</option>
+                                        <option value="0%">0%</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td contenteditable="false" class="total border-1"></td>
+                        </tr>
+                    
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">tax rate of 10%</td>
+                        <td contenteditable="true" class="tenPercent border-1">¥31090.71</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">tax</td>
+                        <td contenteditable="true" class="tenPercentTax border-1">¥3267.37</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">tax rate of 8%</td>
+                        <td contenteditable="true" class="eightPercent border-1">¥1583.01</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">tax</td>
+                        <td contenteditable="true" class="eightPercentTax border-1">¥2613.90</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-1"></td>
+                        <td contenteditable="true" class="border-1">小計</td>
+                        <td contenteditable="true" class="subtotal border-1">¥32673.72</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-top">お振込先  
+                            <select id="selectionBankDetail" name="selectionBankDetail" class="hideSelection">
+                                
+                                    <option value="J-wire株式会社">J-wire株式会社</option>
+                                
+                                    <option value="Western Union">Western Union</option>
+                                
+                            </select>
+                        </td>
+                        <td contenteditable="true" class="border-1">非課税対照</td>
+                        <td contenteditable="true" class="border-1"></td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0">楽天銀行</td>
+                        <td contenteditable="true" class="border-1" id="bankName">課税対象:</td>
+                        <td contenteditable="true" class="totalTaxable border-1">¥32673.72</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="bankNameDetails">楽天銀行</td>
+                        <td contenteditable="true" class="border-1">消費税</td>
+                        <td contenteditable="true" class="saleTax border-1">¥18.00</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchNo">支店番号：</td>
+                        <td contenteditable="true" class="border-1">合計金額</td>
+                        <td contenteditable="true" class="totalAmount border-1">¥32691.72</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="branchName">支店名：</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="type">口座の種類：</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" colspan="4" class="border-0" id="accountNo">口座番号：</td>
+                    </tr>
+                </tbody>
+              </table>
+              <input type="text" class="form-control rich-input" id="comment" name="comment">
+            </div>
+        </div>
+    </div>
