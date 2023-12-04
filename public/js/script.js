@@ -6,11 +6,11 @@ function getBaseURL() {
       baseURL = 'http://localhost:3000'; // Change the port as needed
     } else {
       // Production environment
-      baseURL = 'http://128.199.211.230'; // Replace with your production URL
+      baseURL = 'http://www.manage-jwire.com'; // Replace with your production URL
     }
   
     return baseURL;
-  }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const detailsButtons = document.querySelectorAll(".details-button");
@@ -402,6 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(getBaseURL() + `/invoice/updatePDF/${filenameWithExtension[1]}`, {
                 method: 'POST',
                 body: formData,
+                mode: 'cors',
             })
             .then(response => response.json())
             .then(data => {
@@ -455,6 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(tableData),
+            mode: 'cors',
         })
             .then(response => {
                 if (response.ok) {
@@ -567,7 +569,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             fetch(getBaseURL() + '/invoice/update/companyInformation', {
                 method: 'POST',
-                body: formData // Pass the FormData object directly as the body of the request
+                body: formData,
+                mode: 'cors',
             })
             .then(response => {
                 // Handle the response (e.g., display success or error message)
@@ -599,7 +602,8 @@ $(document).ready(function() {
                 index: index,
                 editTitle: editedTitle,
                 editText: editedText
-            })
+            }),
+            mode: 'cors',
         })
             .then(response => {
                 if (response.ok) {
@@ -716,7 +720,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ client, attachment })
+                body: JSON.stringify({ client, attachment }),
+                mode: 'cors',
             })
             .then(response => {
                 if (response.ok) {
