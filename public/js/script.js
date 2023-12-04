@@ -769,3 +769,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // handleInput();
 
 });
+const sortClients = (sortType) => {
+    const clientList = document.getElementById('clientList');
+    const clients = [...clientList.getElementsByClassName('list-group-item')];
+  
+    clients.sort((a, b) => {
+      const nameA = a.querySelector('.w-100').getAttribute('data-name');
+      const nameB = b.querySelector('.w-100').getAttribute('data-name');
+  
+      if (sortType === 'AZ') {
+        return nameA.localeCompare(nameB);
+      } else if (sortType === 'ZA') {
+        return nameB.localeCompare(nameA);
+      }
+    });
+  
+    // Clear the current list
+    clientList.innerHTML = '';
+  
+    // Append sorted clients back to the list
+    clients.forEach((client, index) => {
+      client.querySelector('.w-100 span').innerText = `${index + 1}. ${client.querySelector('.w-100').getAttribute('data-name')}`;
+      clientList.appendChild(client);
+    });
+  };
+  
+const searchClients = () => {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toUpperCase();
+    const ul = document.getElementById('clientList');
+    const li = ul.getElementsByTagName('li');
+
+    for (let i = 0; i < li.length; i++) {
+        const nameDiv = li[i].getElementsByClassName('w-100')[0];
+        if (nameDiv) {
+            const name = nameDiv.getAttribute('data-name');
+            const nameUpperCase = name ? name.toUpperCase() : '';
+            if (nameUpperCase.includes(filter)) {
+                li[i].removeAttribute('hidden');
+                li[i].style.display = ''; // Show the element
+            } else {
+                li[i].setAttribute('hidden', 'true');
+                li[i].style.display = 'none !important'; // Hide the element using !important
+            }
+        }
+    }
+};
+
+
+
+document.getElementById('searchInput').addEventListener('input', searchClients);

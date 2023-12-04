@@ -34,13 +34,18 @@
             </div>
             <div class="container mt-4">
                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Month</th>
+                            <th class="text-center">Attachments</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <% for (const year in clientData) { %>
                             <% for (const month in clientData[year]) { %>
                                 <tr>
                                     <td class="text-center"><%= month %></td>
-                                    <td class="text-center">
-                                        <a href="/invoice/control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a></td>
                                     <td class="text-center">
                                         <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
                                             <% for (const attachment of clientData[year][month].client[client]) { %>
@@ -67,7 +72,9 @@
                                         <% } %>
                                     </td>
                                     <td class="text-center">
+                                        <a href="/invoice/control/createInvoice/<%= client %>" class="btn btn-primary btn-sm me-2">Create Invoice & Notes</a>
                                         <a href="/invoice/control/sendEmail/<%= client %>" class="btn btn-primary btn-sm">Send Invoice</a>
+                                        
                                     </td>
                                 </tr>
                             <% } %>

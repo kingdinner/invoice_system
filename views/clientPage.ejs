@@ -16,21 +16,58 @@
             <button class="btn btn-primary mb-3 client-button" data-toggle="modal" data-target="#newClientModal" data-client="#">
                 <i class="fas fa-plus"></i> Add new client
             </button>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search clients" id="searchInput">
+                <button class="btn btn-outline-secondary" type="button" onclick="searchClients()">
+                    Search
+                </button>
+            </div>
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
                     <div class="w-100 d-flex align-items-center py-2">
-                        <div class="col-md-8">
-                            <h6 class="mb-0">Name</h6>
+                        <div class="col-md-3 d-flex align-items-center">
+                            <div>
+                                <h6 class="mb-0">Name</h6>
+                            </div>
+                            <div>
+                                <button onclick="sortClients('AZ')" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-up" viewBox="0 0 16 16">
+                                        <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707zm3.5-9a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                                    </svg>
+                                    </svg>
+                                </button>
+                                <button onclick="sortClients('ZA')" class="btn btn-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-down" viewBox="0 0 16 16">
+                                        <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h6 class="mb-0">Memo</h6>
                         </div>
                         <div class="col-md-4">
                             <h6 class="mb-0 me-1">Actions</h6>
                         </div>
                     </div>
                 </li>
+            </ul>
+            <ul class="list-group" id="clientList">
                 <% clients.forEach((client, index) => { %>
                     <li class="list-group-item d-flex justify-content-between align-items-center mt-2">
-                        <div class="w-100 align-items-center col-md-8">
-                            <span><%= index + 1 %>. <%= client %></span>
+                        <div class="w-100 align-items-center col-md-3" data-name="<%= client %>">
+                          <span><%= client %></span>
+                        </div>
+                        <div class="dropdown col-md-5">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Menu
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="#">Option 1</a></li>
+                                <li><a class="dropdown-item" href="#">Option 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            </ul>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">

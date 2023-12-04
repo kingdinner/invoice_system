@@ -2,7 +2,8 @@
 
 let inMemoryData = [{
     clients: [
-        {
+        {   
+            clientId: "1",
             client: "Joe",
             companyName: "ABC Company",
             personInCharge: "Joe Doe",
@@ -12,11 +13,17 @@ let inMemoryData = [{
             emailTemplate: "asdasd"
         },
         {
+            clientId: "3",
             client: "Joe Doe"
         }, 
         {    
+            clientId: "2",
             client: "Joe Twin"
-        }
+        },
+        {
+            clientId: "4",
+            client: "Karlo Angelo"
+        }, 
     ]
 }];
 
@@ -26,7 +33,8 @@ const dataModel = {
     },
     get: {
         clients: () => inMemoryData[0].clients,
-        clientNames: () => inMemoryData[0].clients.map(client => client.client) // New function to get all client names
+        clientNames: () => inMemoryData[0].clients.map(client => client.client),
+        clientId: () => inMemoryData[0].clients.map(client => client.clientId) // New function to get all client names
     },
     update: {
         client: (name, newData) => {
