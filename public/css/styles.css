@@ -123,3 +123,8 @@
 p {
     margin: .3rem; /* Remove margin */
   }
+
+button.btn-link svg {
+    margin: 0;
+    padding: 0;
+}

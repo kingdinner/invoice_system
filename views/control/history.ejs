@@ -49,7 +49,26 @@
                                     <td class="text-center">
                                         <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
                                             <% for (const attachment of clientData[year][month].client[client]) { %>
+                                                <!-- Add this modal markup at the end of your HTML body -->
+                                                <div class="modal fade" id="changeNameModal" tabindex="-1" aria-labelledby="changeNameModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="changeNameModalLabel">Change Name</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="text" class="form-control" id="newNameInput" placeholder="Enter new name">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary" id="saveNameBtn">Save changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <a href="/invoice/invoiceEditPDF/<%= client %>-<%= attachment %>" class="btn btn-primary btn-sm mt-1"><%= attachment %></a>
+                                                <button>Change Name</button>
                                                 <span style="margin-right: 10px;"></span> <!-- Adjust the margin to your preference -->
                                                 <button 
                                                     class="btn btn-primary btn-sm mt-1 delete-pdf-button" 
@@ -104,7 +123,41 @@ function openPDF(path) {
         </body>
         </html>
       `);
-    }
+}
+// Add an event listener to the 'Change Name' button within each table row
+document.querySelectorAll('tbody').forEach(tableBody => {
+    tableBody.addEventListener('click', function(event) {
+        const target = event.target;
+        if (target.tagName === 'BUTTON' && target.textContent === 'Change Name') {
+            const modal = document.getElementById('changeNameModal');
+            const saveBtn = document.getElementById('saveNameBtn');
+            const newNameInput = document.getElementById('newNameInput');
+
+            // Access the current row's month and attachment information for further processing
+            const month = target.closest('tr').querySelector('.text-center:first-child').textContent;
+            const attachment = target.closest('tr').querySelector('.btn-primary').textContent;
+
+            // Set up the modal with the relevant month and attachment information
+            // For example, display them in the modal title
+            const modalTitle = modal.querySelector('.modal-title');
+            modalTitle.textContent = `Change Name for ${month} - ${attachment}`;
+
+            // Show the modal
+            const modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+
+            // Handle the 'Save changes' button click event
+            saveBtn.addEventListener('click', function() {
+                const newName = newNameInput.value.trim();
+                // Add logic here to save the new name
+                console.log(`New Name: ${newName}`);
+                // Close the modal
+                modalInstance.hide();
+            });
+        }
+    });
+});
+
 </script>
 </body>
 </html>

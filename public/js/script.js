@@ -799,7 +799,7 @@ const sortClients = (sortType) => {
     });
   };
   
-const searchClients = () => {
+  const searchClients = () => {
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
     const ul = document.getElementById('clientList');
@@ -810,17 +810,59 @@ const searchClients = () => {
         if (nameDiv) {
             const name = nameDiv.getAttribute('data-name');
             const nameUpperCase = name ? name.toUpperCase() : '';
+            
+            // Check if the filter matches the name
             if (nameUpperCase.includes(filter)) {
-                li[i].removeAttribute('hidden');
-                li[i].style.display = ''; // Show the element
+                li[i].classList.remove('hidden');
+                li[i].classList.add('list-group-item', 'd-flex');
             } else {
-                li[i].setAttribute('hidden', 'true');
-                li[i].style.display = 'none !important'; // Hide the element using !important
+                li[i].classList.add('hidden');
+                li[i].classList.remove('list-group-item', 'd-flex');
             }
         }
     }
 };
 
-
-
 document.getElementById('searchInput').addEventListener('input', searchClients);
+
+// Only define the functions once
+const selectItem = (itemName) => {
+    const dropdownButton = document.getElementById('dropdownMenuButton');
+    dropdownButton.textContent = itemName;
+};
+
+// Add an event listener to the parent element (event delegation)
+document.getElementById('clientList').addEventListener('click', function(event) {
+    const target = event.target;
+
+    // Check if the clicked element is a dropdown item
+    if (target.classList.contains('dropdown-item')) {
+        const itemName = target.textContent.trim();
+        const dropdownButton = target.closest('.dropdown').querySelector('.dropdown-toggle');
+        dropdownButton.textContent = itemName;
+    }
+});
+
+// Add an event listener for the input field
+document.getElementById('clientList').addEventListener('keydown', function(event) {
+    const target = event.target;
+
+    // Check if the clicked element is an input field and Enter key is pressed
+    if (target.classList.contains('newOptionInput') && event.key === 'Enter') {
+        const newOption = target.value.trim();
+        if (newOption !== '') {
+            const dropdownMenu = target.closest('.dropdown-menu');
+            const newItem = document.createElement('li');
+            const link = document.createElement('a');
+
+            link.classList.add('dropdown-item');
+            link.href = '#';
+            link.textContent = newOption;
+
+            newItem.appendChild(link);
+            dropdownMenu.insertBefore(newItem, dropdownMenu.lastElementChild); // Insert before the last element
+
+            target.value = ''; // Clear the input field after adding the option
+        }
+    }
+});
