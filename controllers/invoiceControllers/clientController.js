@@ -10,6 +10,7 @@ const companyModel = require('../../models/companyInformation');
 const emailTemplateModel = require('../../models/email');
 const menuModel = require('../../models/menu');
 const historyModel = require('../../models/history');
+const {readMemoFile, updateMemoFile}=require('./utils/utils');
 
 const getClientData = (clientName, fieldName) => {
     const client = clientModel.find.clientByName(clientName);
@@ -24,12 +25,14 @@ const getClientNames = () => {
     return clients;
 }
 
-const renderClientDetails = (req, res) => {
+const renderClientDetails = async (req, res) => {
     const clients = getClientNames()
-    res.render('clientPage', { clients, getClientData: getClientData });
+    const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+    const displayMemoList = await readMemoFile(memoFilePath)
+    res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
 }
 
-const newClient = (req,res) => {
+const newClient = async (req,res) => {
     const {clientname, companyName, personInCharge, address, emailAddress, notes} = req.body
     const newClientData = {
         client: clientname,
@@ -43,11 +46,34 @@ const newClient = (req,res) => {
     // Call the insert method with the new client data
     clientModel.insert.client(newClientData);
     const clients = getClientNames()
-
-    res.render('clientPage', { clients, getClientData: getClientData });
+    const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+    const displayMemoList = await readMemoFile(memoFilePath)
+    res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
 }
 
-const saveDetails = (req, res) => {
+const updateMemoClient = async(req, res) => {
+    console.log(req.body)
+    const {memo, clientName} = req.body
+    const clientToUpdate = clientModel.find.clientByName(clientName);
+    if (clientToUpdate) {
+        clientToUpdate.memo = memo;
+        // Update the client data in the model
+        clientModel.update.client(clientName, clientToUpdate);
+
+        // Retrieve updated client names from the model
+        const clients = clientModel.get.clientNames();
+
+        // Render the 'clientPage' view with updated data
+        const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+        const displayMemoList = await readMemoFile(memoFilePath)
+        res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
+    } else {
+        // Handle the case where the client to update is not found
+        res.send('Client not found');
+    }
+}
+
+const saveDetails = async(req, res) => {
     const clientName = req.body.clientDetailsContent;
     const clientToUpdate = clientModel.find.clientByName(clientName);
     
@@ -72,7 +98,9 @@ const saveDetails = (req, res) => {
         const clients = clientModel.get.clientNames();
 
         // Render the 'clientPage' view with updated data
-        res.render('clientPage', { clients, getClientData: getClientData });
+        const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+        const displayMemoList = await readMemoFile(memoFilePath)
+        res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
     } else {
         // Handle the case where the client to update is not found
         res.send('Client not found');
@@ -351,6 +379,56 @@ const changeBasedYear = (selectedYear) => {
     clientData[selectedYear] = inMemoryHistory[selectedYear] || {};
 };
 
+const memo = async (req,res) => {
+    const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+    await updateMemoFile(memoFilePath, req.body.newOption);
+    const displayMemoList = await readMemoFile(memoFilePath)
+    const clients = getClientNames()
+    res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
+}
+
+const updateMemo = async (req, res) => {
+    const clientName = req.body.clientDetailsContent;
+    const clientToUpdate = clientModel.find.clientByName(clientName);
+    
+    if (clientToUpdate) {
+        // If the image was uploaded successfully, update the client data
+        clientToUpdate.client = req.body.clientname;
+        clientToUpdate.companyName = req.body.companyName;
+        clientToUpdate.personInCharge = req.body.personInCharge;
+        clientToUpdate.address = req.body.address;
+        clientToUpdate.emailAddress = req.body.emailAddress;
+        clientToUpdate.notes = req.body.notes;
+    }
+        // Check if an image was uploaded
+    if (req.file) {
+        clientToUpdate.imagePath = `/images/client/${req.file.filename}`;
+    }
+
+    // Update the client data in the model
+    clientModel.update.client(clientName, clientToUpdate);
+
+    // Retrieve updated client names from the model
+    const clients = clientModel.get.clientNames();
+
+
+    res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
+}
+
+const changeFileName = (req, res) => {
+    const {newName, year, month, attachment, clientName} = req.body
+    historyModel.update.historyUpdateFileName(year, month, clientName, attachment, newName)
+    const filePath = path.join('public', 'history', clientName, attachment);
+    const newFilePath = path.join('public', 'history', clientName, newName + '.pdf');
+    const filePathtext = path.join('public', 'history', clientName, attachment.replace('.pdf', '.text'))
+    const newFiletext = path.join('public', 'history', clientName, newName + '.text');
+    if (fs.existsSync(filePath)) {
+        fs.renameSync(filePath, newFilePath);
+    }
+    if (fs.existsSync(filePathtext)) {
+        fs.renameSync(filePathtext, newFiletext);
+    }
+}
 
 module.exports = {
     renderClientDetails,
@@ -364,5 +442,9 @@ module.exports = {
     rendercontrolHistory,
     invoiceEditPDF,
     updatePDF,
-    deletePDFActions
+    deletePDFActions,
+    memo,
+    updateMemo,
+    updateMemoClient,
+    changeFileName
 };

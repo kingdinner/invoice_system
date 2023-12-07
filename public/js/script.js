@@ -824,11 +824,29 @@ const sortClients = (sortType) => {
 };
 
 document.getElementById('searchInput').addEventListener('input', searchClients);
-
-// Only define the functions once
 const selectItem = (itemName) => {
     const dropdownButton = document.getElementById('dropdownMenuButton');
     dropdownButton.textContent = itemName;
+    fetch('/invoice/clientUpdateMemo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Assuming you're sending JSON data
+        },
+        body: JSON.stringify(dataToSave), // Convert data to JSON format
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); // Assuming the server sends back JSON data
+    })
+    .then(savedData => {
+        // Handle the response from the server after data is saved
+        console.log('Data saved:', savedData);
+    })
+    .catch(error => {
+        console.error('There was a problem with the save operation:', error);
+    });
 };
 
 // Add an event listener to the parent element (event delegation)
@@ -840,6 +858,41 @@ document.getElementById('clientList').addEventListener('click', function(event) 
         const itemName = target.textContent.trim();
         const dropdownButton = target.closest('.dropdown').querySelector('.dropdown-toggle');
         dropdownButton.textContent = itemName;
+
+        // Get the data-name attribute value from the clicked item
+        const clientName = target.getAttribute('data-name');
+
+        // Sample data to send in the POST request (modify this according to your needs)
+        const postData = {
+            memo: itemName,
+            clientName: clientName // Add the clientName to the data being sent
+            // Add more properties if needed
+        };
+        // Options for the fetch POST request
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Modify content type based on your server requirements
+                // Add more headers if needed
+            },
+            body: JSON.stringify(postData),
+            mode: 'cors', // Convert data to JSON string
+        };
+        // Make the POST request
+        fetch(getBaseURL() + '/invoice/updateMemoClient', requestOptions) // Replace URL with your API endpoint
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle the response if needed
+                console.log('Data successfully sent:', data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     }
 });
 
@@ -863,6 +916,23 @@ document.getElementById('clientList').addEventListener('keydown', function(event
             dropdownMenu.insertBefore(newItem, dropdownMenu.lastElementChild); // Insert before the last element
 
             target.value = ''; // Clear the input field after adding the option
+
+            // Fetch request to update menu options on the server
+            fetch('/invoice/memoUpdate', {
+                method: 'POST', // or 'PUT', 'PATCH', etc. depending on your server implementation
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ newOption }), // Send the new option to the server
+            })
+            .then(response => {
+                // Handle the response if needed
+                console.log('Menu options updated successfully');
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error updating menu options:', error);
+            });
         }
     }
 });

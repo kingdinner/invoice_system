@@ -49,6 +49,9 @@ router.post('/invoice/insertEmailTemplate', emailController.insertEmailTemplate)
 router.post('/invoice/submit-form', uploadClient.single('image'), clientController.saveDetails);
 router.post('/invoice/mailSubmit-form', clientController.emailSaveDetails);
 router.post('/invoice/newClientSubmitForm', clientController.newClient);
+router.post('/invoice/memoUpdate', clientController.memo);
+router.post('/invoice/updateMemoClient', clientController.updateMemoClient);
+router.post('/invoice/changeFileName', clientController.changeFileName);
 
 router.post('/invoice/saveMenu', upload.none(), menuController.insertMenus);
 router.post('/invoice/savePDF', upload.none(), clientController.generatePDF);

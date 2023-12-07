@@ -37,6 +37,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">Month</th>
+                            <th class="text-center hidden">Year</th>
                             <th class="text-center">Attachments</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -45,7 +46,8 @@
                         <% for (const year in clientData) { %>
                             <% for (const month in clientData[year]) { %>
                                 <tr>
-                                    <td class="text-center"><%= month %></td>
+                                    <td class="text-center" id="month"><%= month %></td>
+                                    <td class="text-center hidden" id="year"><%= year %></td>
                                     <td class="text-center">
                                         <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
                                             <% for (const attachment of clientData[year][month].client[client]) { %>
@@ -58,6 +60,7 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
+                                                                <input type="text" class="form-control hidden"  data-name="<%= client %>">
                                                                 <input type="text" class="form-control" id="newNameInput" placeholder="Enter new name">
                                                             </div>
                                                             <div class="modal-footer">
@@ -67,8 +70,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <a href="/invoice/invoiceEditPDF/<%= client %>-<%= attachment %>" class="btn btn-primary btn-sm mt-1"><%= attachment %></a>
-                                                <button>Change Name</button>
+                                                <a href="/invoice/invoiceEditPDF/<%= client %>-<%= attachment %>" class="btn btn-primary btn-sm mt-1 attachment"><%= attachment %></a>
+                                                <input type="file" id="uploadFileInput" style="display: none;">
+                                                <label for="uploadFileInput" class="btn btn-primary btn-sm mt-1">Attach New File</label>
+                                                <span id="selectedFileName"></span>
+                                                </br>
+                                                <button class="btn btn-primary btn-sm mt-1">Change Name</button>
                                                 <span style="margin-right: 10px;"></span> <!-- Adjust the margin to your preference -->
                                                 <button 
                                                     class="btn btn-primary btn-sm mt-1 delete-pdf-button" 
@@ -125,6 +132,7 @@ function openPDF(path) {
       `);
 }
 // Add an event listener to the 'Change Name' button within each table row
+// Add an event listener to the 'Change Name' button within each table row
 document.querySelectorAll('tbody').forEach(tableBody => {
     tableBody.addEventListener('click', function(event) {
         const target = event.target;
@@ -132,15 +140,15 @@ document.querySelectorAll('tbody').forEach(tableBody => {
             const modal = document.getElementById('changeNameModal');
             const saveBtn = document.getElementById('saveNameBtn');
             const newNameInput = document.getElementById('newNameInput');
-
             // Access the current row's month and attachment information for further processing
             const month = target.closest('tr').querySelector('.text-center:first-child').textContent;
-            const attachment = target.closest('tr').querySelector('.btn-primary').textContent;
+            const attachment = target.closest('tr').querySelector('.attachment').textContent;
+            const year = target.closest('tr').querySelector('.text-center.hidden').textContent;
 
             // Set up the modal with the relevant month and attachment information
             // For example, display them in the modal title
             const modalTitle = modal.querySelector('.modal-title');
-            modalTitle.textContent = `Change Name for ${month} - ${attachment}`;
+            modalTitle.textContent = `Change Name for ${month} - ${attachment} (${year})`;
 
             // Show the modal
             const modalInstance = new bootstrap.Modal(modal);
@@ -149,11 +157,70 @@ document.querySelectorAll('tbody').forEach(tableBody => {
             // Handle the 'Save changes' button click event
             saveBtn.addEventListener('click', function() {
                 const newName = newNameInput.value.trim();
-                // Add logic here to save the new name
-                console.log(`New Name: ${newName}`);
+                // Add logic here to save the new name along with year, month, and attachment
+                sendDataToServer(newName, year, month, attachment);
                 // Close the modal
                 modalInstance.hide();
             });
+        }
+    });
+});
+
+// Function to send data to the server (replace this with your actual logic)
+function sendDataToServer(newName, year, month, attachment) {
+    // Example AJAX request to send the data to the server
+    // Modify this function to suit your backend/API endpoint
+    
+    const hiddenInput = document.querySelector('.form-control.hidden');
+    const clientName = hiddenInput.getAttribute('data-name');
+    $.ajax({
+        url: '/invoice/changeFileName',
+        method: 'POST',
+        data: {
+            newName: newName,
+            year: year,
+            month: month,
+            attachment: attachment,
+            clientName
+        },
+        success: function(response) {
+            console.log('Data sent successfully:', response);
+            // You can add further actions here upon successful data submission
+        },
+        error: function(error) {
+            console.error('Error sending data:', error);
+            // Handle errors or display messages accordingly
+        }
+    });
+}
+$(document).ready(function() {
+    $('#uploadFileInput').on('change', function() {
+        const selectedFile = this.files[0];
+        const fileNameDisplay = $('#selectedFileName');
+        const maxDisplayLength = 20; // Change this value to your desired character limit
+        
+        if (selectedFile) {
+            console.log('Selected file:', selectedFile);
+
+            // Check if the filename meets the minimum character limit (15 in this case)
+            if (selectedFile.name.length < 15) {
+                alert('File name should be at least 15 characters long.');
+                this.value = ''; // Clear the file input
+                fileNameDisplay.text('');
+                return; // Stop further execution
+            }
+
+            let displayedFileName = selectedFile.name;
+            if (displayedFileName.length > maxDisplayLength) {
+                displayedFileName = displayedFileName.substring(0, maxDisplayLength) + '...';
+            }
+
+            fileNameDisplay.text('Selected file: ' + displayedFileName);
+            // Implement logic to handle the selected file (e.g., upload)
+            // You can send this file to the server using AJAX or handle it accordingly.
+        } else {
+            console.log('No file selected.');
+            fileNameDisplay.text('');
         }
     });
 });

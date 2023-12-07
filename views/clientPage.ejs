@@ -59,14 +59,15 @@
                         </div>
                         <div class="dropdown col-md-5">
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Menu
+                                <%= getClientData(client, 'memo') ? getClientData(client, 'memo') : "Select New Memo"  %>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="#">Developer</a></li>
-                                <li><a class="dropdown-item" href="#">Tester</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><input class="newOptionInput"></li>
-                            </ul>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <% displayMemoList.forEach((memo) => { %>
+                                        <li><a class="dropdown-item" href="#"  data-name="<%= client %>"><%= memo %></a></li>
+                                    <% }) %>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><input class="newOptionInput"></li>
+                                </ul>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm me-2 details-button" data-toggle="modal" data-target="#<%= client.replace(/ /g, '_') %>Modal" data-client="<%= client %>">

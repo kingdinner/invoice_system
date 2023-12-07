@@ -10,7 +10,8 @@ let inMemoryData = [{
             address: "ABC Street",
             emailAddress: "abc@example.com",
             notes: "ABC",
-            emailTemplate: "asdasd"
+            emailTemplate: "asdasd",
+            memo: "Designer"
         },
         {
             clientId: "3",

@@ -31,7 +31,7 @@ const historyModel = {
     },
     update: {
         historyByMonth: (year, month, newMenuItems) => {
-            if (inMemoryHistory[year] && inMemoryHistory[year][month]) {
+            if (inMemoryHistory[year][month]) {
                 inMemoryHistory[year][month] = newMenuItems;
                 return "History updated successfully";
             } else {
@@ -41,13 +41,41 @@ const historyModel = {
         historyByYear: (year) => {
             return inMemoryHistory[year]
         },
-        historyByFilePath: (year, month, client, path) => {
-            try {
-                return inMemoryHistory[year][month].client[client].push(path);
-            } catch (error) {
-                return inMemoryHistory[year][month]["client"][client] = [path];
+        historyByFilePath: (year, month, clientName, path) => {
+            if (!inMemoryHistory[year][month]) {
+                inMemoryHistory[year][month] = {
+                    client:{
+                        [clientName]: []
+                    }
+                };
             }
-        }
+            return inMemoryHistory[year][month].client[clientName].push(path);
+        },
+        historyUpdateFileName: (year, month, client, oldFileName, newFileName) => {
+            try {
+                if (
+                    inMemoryHistory[year] &&
+                    inMemoryHistory[year][month] &&
+                    inMemoryHistory[year][month].client &&
+                    inMemoryHistory[year][month].client[client]
+                ) {
+                    const clientInvoices = inMemoryHistory[year][month].client[client];
+                    const index = clientInvoices.indexOf(oldFileName);
+                    if (index !== -1) {
+                        // Update the filename
+                        clientInvoices[index] = newFileName + ".pdf";
+                        return `Filename '${oldFileName}' updated to '${newFileName}' for client '${client}' in ${month}, ${year}`;
+
+                    } else {
+                        return `Filename '${oldFileName}' not found for client '${client}' in ${month}, ${year}`;
+                    }
+                } else {
+                    return "History not found for the given month, year, or client";
+                }
+            } catch (error) {
+                return "An error occurred while updating the filename";
+            }
+        },
     },
     delete: (year, month, client, invoice) => {
         if (
