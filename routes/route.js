@@ -33,6 +33,15 @@ const storageClient = multer.diskStorage({
     }
 });
 
+const storageClientFile = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/history/'); // Define the folder to store the uploaded images
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Preserve the original filename
+    }
+});
+const uploadFileAttach = multer ({storage: storage})
 const upload = multer({ storage: storage });
 const uploadClient = multer({ storage: storageClient });
 
@@ -59,6 +68,8 @@ router.post('/invoice/sendEmail', clientController.sendEmail);
 router.get('/invoice/invoiceEditPDF/:fileName', clientController.invoiceEditPDF);
 router.post('/invoice/updatePDF/:fileName', upload.none(), clientController.updatePDF);
 router.post('/invoice/deletePDF', upload.none(), clientController.deletePDFActions);
+
+router.post('/invoice/uploadFile', uploadFileAttach.single('file'), clientController.uploadFile);
 
 router.get('/invoice/control/sendEmail/:clientName', clientController.rendercontrolEmail);
 router.get('/invoice/control/createInvoice/:clientName', clientController.renderInvoice);

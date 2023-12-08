@@ -71,9 +71,8 @@
                                                     </div>
                                                 </div>
                                                 <a href="/invoice/invoiceEditPDF/<%= client %>-<%= attachment %>" class="btn btn-primary btn-sm mt-1 attachment"><%= attachment %></a>
-                                                <input type="file" id="uploadFileInput" style="display: none;">
-                                                <label for="uploadFileInput" class="btn btn-primary btn-sm mt-1">Attach New File</label>
                                                 <span id="selectedFileName"></span>
+                                                
                                                 </br>
                                                 <button class="btn btn-primary btn-sm mt-1">Change Name</button>
                                                 <span style="margin-right: 10px;"></span> <!-- Adjust the margin to your preference -->
@@ -93,7 +92,13 @@
                                                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                                                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                               </svg>
-                                            </a><br/>
+                                            </a>
+
+                                            <input type="file" id="uploadFileInput" style="display: none;">
+                                            <label for="uploadFileInput" class="btn btn-primary btn-sm mt-1" id="uploadFileInputS">Attach New File</label>
+                                            <button class="btn btn-primary btn-sm mt-1 hidden" id="attachNewFileBtn">Upload</button>
+                                            <br/>
+                                            <hr />
                                             <% } %>
                                         <% } %>
                                     </td>
@@ -224,7 +229,86 @@ $(document).ready(function() {
         }
     });
 });
+$(document).ready(function() {
+    $('#uploadFileInput').on('change', function() {
+        const selectedFile = this.files[0];
+        const attachNewFileBtn = $('#attachNewFileBtn');
+        const fileNameDisplay = $('#selectedFileName');
+        const uploadFileInput = $('#uploadFileInputS');
+        
+        const maxDisplayLength = 20; // Change this value to your desired character limit
+        
+        if (selectedFile) {
+            console.log('Selected file:', selectedFile);
 
+            // Check if the filename meets the minimum character limit (15 in this case)
+            if (selectedFile.name.length < 15) {
+                alert('File name should be at least 15 characters long.');
+                this.value = ''; // Clear the file input
+                fileNameDisplay.text('');
+                return; // Stop further execution
+            }
+
+            let displayedFileName = selectedFile.name;
+            if (displayedFileName.length > maxDisplayLength) {
+                displayedFileName = displayedFileName.substring(0, maxDisplayLength) + '...';
+            }
+
+            fileNameDisplay.text('Selected file: ' + displayedFileName);
+            attachNewFileBtn.text('Upload');
+
+            attachNewFileBtn.removeClass('hidden').text('Upload');
+            uploadFileInput.addClass('hidden');
+            uploadFileInputS.addClass('hidden')
+            
+        } else {
+            console.log('No file selected.');
+            fileNameDisplay.text('');
+            attachNewFileBtn.addClass('hidden').text('Attach New File');
+            uploadFileInput.removeClass('hidden').text('Attach New File');
+            uploadFileInputS.removeClass('hidden').text('Attach New File');
+        }
+    });
+});
+$(document).ready(function() {
+    $('#attachNewFileBtn').on('click', function() {
+        const selectedFile = $('#uploadFileInput')[0].files[0];
+        const clientName = ''; // Get the client name from somewhere
+        
+        const month = target.closest('tr').querySelector('.text-center:first-child').textContent;
+        const year = target.closest('tr').querySelector('.text-center.hidden').textContent;
+
+        if (selectedFile) {
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('clientName', clientName);
+            formData.append('month', month);
+            formData.append('year', year);
+            
+            // Make a fetch POST request to upload the file
+            fetch('/invoice/uploadFile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('File upload failed.');
+            })
+            .then(data => {
+                console.log('File uploaded successfully:', data);
+                // Handle the success response as needed
+            })
+            .catch(error => {
+                console.error('Error uploading file:', error);
+                // Handle errors or display messages accordingly
+            });
+        } else {
+            console.log('No file selected.');
+        }
+    });
+});
 </script>
 </body>
 </html>

@@ -430,7 +430,12 @@ const changeFileName = (req, res) => {
     }
 }
 
+const uploadFile = (req, res) => {
+    console.log
+}
+
 module.exports = {
+    uploadFile,
     renderClientDetails,
     renderInvoice,
     saveDetails,

@@ -343,9 +343,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveAndSubmitButton = document.getElementById('saveAndSubmitButton');
     const invoiceContent = document.querySelector('.content'); // Get the HTML content you want to send
 
+    const commentTextarea = document.getElementById('comment');
+
+    if (commentTextarea){
+        commentTextarea.addEventListener('input', function(event) {
+            // Get the current value of the textarea
+            const textareaValue = event.target.value;
+        
+            // Update the initial content of the textarea in real-time
+            commentTextarea.textContent = textareaValue;
+        });
+    };
+
+
     if (saveAndSubmitButton) {
         saveAndSubmitButton.addEventListener('click', function() {
             // Convert the HTML content to a string
+            console.log(invoiceContent)
             const htmlContent = invoiceContent.outerHTML;
             const labelElement = document.querySelector('label[for="clientDetailsContent"]');
             const clientName = labelElement.textContent;
