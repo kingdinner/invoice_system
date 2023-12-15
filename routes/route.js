@@ -35,13 +35,13 @@ const storageClient = multer.diskStorage({
 
 const storageClientFile = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/history/'); // Define the folder to store the uploaded images
+        cb(null, 'public/attachment/'); // Define the folder to store the uploaded images
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // Preserve the original filename
     }
 });
-const uploadFileAttach = multer ({storage: storage})
+const uploadFileAttach = multer ({storage: storageClientFile})
 const upload = multer({ storage: storage });
 const uploadClient = multer({ storage: storageClient });
 
@@ -61,6 +61,9 @@ router.post('/invoice/newClientSubmitForm', clientController.newClient);
 router.post('/invoice/memoUpdate', clientController.memo);
 router.post('/invoice/updateMemoClient', clientController.updateMemoClient);
 router.post('/invoice/changeFileName', clientController.changeFileName);
+router.post('/invoice/memoDelete', clientController.memoDelete);
+
+
 
 router.post('/invoice/saveMenu', upload.none(), menuController.insertMenus);
 router.post('/invoice/savePDF', upload.none(), clientController.generatePDF);

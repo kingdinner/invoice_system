@@ -53,7 +53,7 @@ const dataModel = {
             inMemoryData[0].clients.push(newClientData);
             return "New client inserted";
         },
-    },
+    }
 };
 
 module.exports = dataModel;

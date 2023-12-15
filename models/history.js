@@ -29,6 +29,23 @@ const historyModel = {
             return inMemoryHistory[year][month].client[client];
         },
     },
+    add: {
+        historyAttachment: (clientName, month, year, file) => {
+            if (!inMemoryHistory[year]) {
+                inMemoryHistory[year] = {};
+            }
+            if (!inMemoryHistory[year][month]) {
+                inMemoryHistory[year][month] = { client: { [clientName]: [] } };
+            } else if (!inMemoryHistory[year][month].client) {
+                inMemoryHistory[year][month].client = { [clientName]: [] };
+            } else if (!inMemoryHistory[year][month].client[clientName]) {
+                inMemoryHistory[year][month].client[clientName] = [];
+            }
+    
+            inMemoryHistory[year][month].client[clientName].push(file);
+            return inMemoryHistory[year][month].client[clientName]
+        }
+    },
     update: {
         historyByMonth: (year, month, newMenuItems) => {
             if (inMemoryHistory[year][month]) {

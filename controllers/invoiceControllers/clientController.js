@@ -10,7 +10,7 @@ const companyModel = require('../../models/companyInformation');
 const emailTemplateModel = require('../../models/email');
 const menuModel = require('../../models/menu');
 const historyModel = require('../../models/history');
-const {readMemoFile, updateMemoFile}=require('./utils/utils');
+const {readMemoFile, updateMemoFile, deleteMemoFile}=require('./utils/utils');
 
 const getClientData = (clientName, fieldName) => {
     const client = clientModel.find.clientByName(clientName);
@@ -431,7 +431,16 @@ const changeFileName = (req, res) => {
 }
 
 const uploadFile = (req, res) => {
-    console.log
+    const {clientName, month, year} = req.body
+    const newHistory = historyModel.add.historyAttachment(clientName, month, year, req.file.originalname)
+    return newHistory
+}
+
+const memoDelete = async(req, res) => {
+    const memoFilePath = path.join(__dirname, '../../public/utils/memo.txt');
+    const displayMemoList = await deleteMemoFile(memoFilePath, req.body.memoText)
+    const clients = getClientNames()
+    res.render('clientPage', { clients, getClientData: getClientData, displayMemoList });
 }
 
 module.exports = {
@@ -451,5 +460,6 @@ module.exports = {
     memo,
     updateMemo,
     updateMemoClient,
-    changeFileName
+    changeFileName,
+    memoDelete
 };

@@ -46,8 +46,8 @@
                         <% for (const year in clientData) { %>
                             <% for (const month in clientData[year]) { %>
                                 <tr>
-                                    <td class="text-center" id="month"><%= month %></td>
-                                    <td class="text-center hidden" id="year"><%= year %></td>
+                                    <td class="text-center month" id="month"><%= month %></td>
+                                    <td class="text-center year hidden" id="year"><%= year %></td>
                                     <td class="text-center">
                                         <% if (clientData[year][month] && clientData[year][month].client && clientData[year][month].client[client] && Array.isArray(clientData[year][month].client[client])) { %>
                                             <% for (const attachment of clientData[year][month].client[client]) { %>
@@ -88,7 +88,7 @@
                                                 </button>                                            
                                                 <span style="margin-right: 5px;"></span> <!-- Adjust the margin to your preference -->
                                                 <% const path = `/public/history/${client}/${attachment}` %>
-                                            <a href="<%= path %>" target="_blank" class="btn btn-primary btn-sm mt-1">                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <a href="<%= path %>" target="_blank" class="btn btn-primary btn-sm mt-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                                                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
                                               </svg>
@@ -207,14 +207,6 @@ $(document).ready(function() {
         if (selectedFile) {
             console.log('Selected file:', selectedFile);
 
-            // Check if the filename meets the minimum character limit (15 in this case)
-            if (selectedFile.name.length < 15) {
-                alert('File name should be at least 15 characters long.');
-                this.value = ''; // Clear the file input
-                fileNameDisplay.text('');
-                return; // Stop further execution
-            }
-
             let displayedFileName = selectedFile.name;
             if (displayedFileName.length > maxDisplayLength) {
                 displayedFileName = displayedFileName.substring(0, maxDisplayLength) + '...';
@@ -241,14 +233,6 @@ $(document).ready(function() {
         if (selectedFile) {
             console.log('Selected file:', selectedFile);
 
-            // Check if the filename meets the minimum character limit (15 in this case)
-            if (selectedFile.name.length < 15) {
-                alert('File name should be at least 15 characters long.');
-                this.value = ''; // Clear the file input
-                fileNameDisplay.text('');
-                return; // Stop further execution
-            }
-
             let displayedFileName = selectedFile.name;
             if (displayedFileName.length > maxDisplayLength) {
                 displayedFileName = displayedFileName.substring(0, maxDisplayLength) + '...';
@@ -259,7 +243,7 @@ $(document).ready(function() {
 
             attachNewFileBtn.removeClass('hidden').text('Upload');
             uploadFileInput.addClass('hidden');
-            uploadFileInputS.addClass('hidden')
+            // uploadFileInputS.addClass('hidden')
             
         } else {
             console.log('No file selected.');
@@ -272,9 +256,11 @@ $(document).ready(function() {
 });
 $(document).ready(function() {
     $('#attachNewFileBtn').on('click', function() {
+
+    const hiddenInput = document.querySelector('.form-control.hidden');
         const selectedFile = $('#uploadFileInput')[0].files[0];
-        const clientName = ''; // Get the client name from somewhere
-        
+        const clientName = hiddenInput.getAttribute('data-name');
+        const target = event.target;
         const month = target.closest('tr').querySelector('.text-center:first-child').textContent;
         const year = target.closest('tr').querySelector('.text-center.hidden').textContent;
 
@@ -284,26 +270,26 @@ $(document).ready(function() {
             formData.append('clientName', clientName);
             formData.append('month', month);
             formData.append('year', year);
-            
+            console.log(formData)
             // Make a fetch POST request to upload the file
-            fetch('/invoice/uploadFile', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('File upload failed.');
-            })
-            .then(data => {
-                console.log('File uploaded successfully:', data);
-                // Handle the success response as needed
-            })
-            .catch(error => {
-                console.error('Error uploading file:', error);
-                // Handle errors or display messages accordingly
-            });
+            // fetch('/invoice/uploadFile', {
+            //     method: 'POST',
+            //     body: formData
+            // })
+            // .then(response => {
+            //     if (response.ok) {
+            //         return response.json();
+            //     }
+            //     throw new Error('File upload failed.');
+            // })
+            // .then(data => {
+            //     console.log('File uploaded successfully:', data);
+            //     // Handle the success response as needed
+            // })
+            // .catch(error => {
+            //     console.error('Error uploading file:', error);
+            //     // Handle errors or display messages accordingly
+            // });
         } else {
             console.log('No file selected.');
         }

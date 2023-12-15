@@ -1,8 +1,8 @@
 const path = require('path');
 const { format } = require('date-fns');
 const fs = require('fs');
-const pdf = require('html-pdf');
-const { JSDOM } = require('jsdom');
+// const pdf = require('html-pdf');
+// const { JSDOM } = require('jsdom');
 const puppeteer = require('puppeteer');
 
 const UpdatedFileGenerator = async (htmlContent,client, filename) => {
@@ -110,12 +110,14 @@ const test = await page.setContent(invoice);
 }
 
 const generateInvoicePDF = async (htmlContent,client) => {
+
   const browser = await puppeteer.launch({
-    headless: false,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: '/usr/bin/google-chrome',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+
   });
 
-  const page = await browser.newPage();
+const page = await browser.newPage();
 
 
   // Set the HTML content

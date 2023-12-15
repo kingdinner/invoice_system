@@ -813,7 +813,7 @@ const sortClients = (sortType) => {
     });
   };
   
-  const searchClients = () => {
+const searchClients = () => {
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
     const ul = document.getElementById('clientList');
@@ -821,12 +821,15 @@ const sortClients = (sortType) => {
 
     for (let i = 0; i < li.length; i++) {
         const nameDiv = li[i].getElementsByClassName('w-100')[0];
-        if (nameDiv) {
+        const memoButton = li[i].querySelector('.btn.btn-secondary');
+        
+        if (nameDiv && memoButton) {
             const name = nameDiv.getAttribute('data-name');
+            const memo = memoButton.textContent.toUpperCase();
             const nameUpperCase = name ? name.toUpperCase() : '';
             
-            // Check if the filter matches the name
-            if (nameUpperCase.includes(filter)) {
+            // Check if the filter matches the name or memo
+            if (nameUpperCase.includes(filter) || memo.includes(filter)) {
                 li[i].classList.remove('hidden');
                 li[i].classList.add('list-group-item', 'd-flex');
             } else {
@@ -908,6 +911,29 @@ document.getElementById('clientList').addEventListener('click', function(event) 
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
+});
+
+$('.deleteMemo').on('click', function(e) {
+    e.preventDefault(); // Prevents the default behavior (e.g., following a link)
+
+    // const client = $(this).closest('.dropdown-menu').find('.dropdown-item').attr('data-name');
+    const memoText = $(this).closest('li').find('.dropdown-item').text();
+
+    fetch('/invoice/memoDelete', {
+        method: 'POST', // or 'PUT', 'PATCH', etc. depending on your server implementation
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ memoText }), // Send the new option to the server
+    })
+    .then(response => {
+        // Handle the response if needed
+        console.log('Menu options updated successfully');
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error updating menu options:', error);
+    });
 });
 
 // Add an event listener for the input field

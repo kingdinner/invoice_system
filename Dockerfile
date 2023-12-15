@@ -1,10 +1,22 @@
-# Use an official Node.js runtime as the parent image
-FROM node:16
+# Base image: Node.js 18
+FROM node:18
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# Install system dependencies
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+RUN apt-get update \
+    && apt-get install -y wget gnupg \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
+      --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package files
 COPY package*.json ./
 
 # Install app dependencies
@@ -13,8 +25,8 @@ RUN npm install
 # Copy the rest of your application code to the container
 COPY . .
 
-# Expose port 3000 (if your Node.js app listens on a specific port)
+# Expose port 3000
 EXPOSE 3000
 
-# Define the command to run your application
-CMD [ "npm", "start" ]
+# Define command to run the application
+CMD ["node", "index.js"]
